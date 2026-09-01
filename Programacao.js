@@ -16,7 +16,7 @@
 const DATA_NASCIMENTO = new Date(
     2002,
     8,
-    0,
+    1,
     0,
     0,
     0
@@ -438,133 +438,211 @@ function verificarVisita() {
     }
 }
 
-
 /* =========================================================
-   CARROSSEL
+   CARROSSEL DO ÁLBUM
 ========================================================= */
 
-const fotos = [
-    "../IMG/YY.jpeg",
-    "../IMG/DeRosa.jpeg",
-    "../IMG/Aeroporto.jpeg"
-];
+const slidesAlbum =
+    document.querySelectorAll(".slide-album");
 
-const legendas = [
-    "Uma memória especial ❤️",
-    "Um momento que guardamos com carinho 🌷",
-    "Mais uma página da nossa história ✨",
+const indicadoresAlbum =
+    document.querySelectorAll(".indicador");
 
+const botaoAnterior =
+    document.getElementById("btnAnterior");
 
-];
+const botaoProximo =
+    document.getElementById("btnProximo");
 
 
-const imagemCarrossel =
-    document.getElementById(
-        "imagemCarrossel"
-    );
+let memoriaAtual = 0;
 
-const fotoLegenda =
-    document.getElementById(
-        "fotoLegenda"
-    );
-
-const indicadores =
-    document.querySelectorAll(
-        ".indicador"
-    );
+let intervaloMemorias = null;
 
 
-function mostrarSlide(indice) {
+/* =========================================================
+   MOSTRAR SLIDE
+========================================================= */
 
-    slideAtual =
-        (indice + fotos.length)
+function mostrarMemoria(indice) {
+
+    if (slidesAlbum.length === 0) {
+        return;
+    }
+
+
+    /* Mantém o índice dentro da quantidade de slides */
+
+    memoriaAtual =
+        (indice + slidesAlbum.length)
         %
-        fotos.length;
+        slidesAlbum.length;
 
-    const fotoContainer =
-        document.querySelector(
-            ".foto-carrossel"
-        );
 
-    fotoContainer.classList.add(
-        "trocando"
+    /* Remove o ativo de todos os slides */
+
+    slidesAlbum.forEach(
+        slide => {
+
+            slide.classList.remove("ativo");
+
+        }
     );
 
-    setTimeout(() => {
 
-        imagemCarrossel.src =
-            fotos[slideAtual];
+    /* Remove o ativo de todos os indicadores */
 
-        fotoLegenda.textContent =
-            legendas[slideAtual];
+    indicadoresAlbum.forEach(
+        indicador => {
 
-        indicadores.forEach(
-            indicador =>
-                indicador.classList.remove(
-                    "ativo"
-                )
-        );
+            indicador.classList.remove("ativo");
 
-        indicadores[
-            slideAtual
+        }
+    );
+
+
+    /* Ativa o slide atual */
+
+    slidesAlbum[
+        memoriaAtual
+    ].classList.add("ativo");
+
+
+    /* Ativa o indicador correspondente */
+
+    if (indicadoresAlbum[memoriaAtual]) {
+
+        indicadoresAlbum[
+            memoriaAtual
         ].classList.add("ativo");
 
-        fotoContainer.classList.remove(
-            "trocando"
-        );
+    }
 
-    }, 250);
 }
 
+
+/* =========================================================
+   PRÓXIMO SLIDE
+========================================================= */
+
+function proximoSlide() {
+
+    mostrarMemoria(
+        memoriaAtual + 1
+    );
+
+    reiniciarCarrossel();
+
+}
+
+
+/* =========================================================
+   SLIDE ANTERIOR
+========================================================= */
+
+function slideAnterior() {
+
+    mostrarMemoria(
+        memoriaAtual - 1
+    );
+
+    reiniciarCarrossel();
+
+}
+
+
+/* =========================================================
+   CARROSSEL AUTOMÁTICO
+========================================================= */
 
 function iniciarCarrossel() {
 
     clearInterval(
-        intervaloSlides
+        intervaloMemorias
     );
 
-    intervaloSlides =
-        setInterval(() => {
 
-            mostrarSlide(
-                slideAtual + 1
-            );
+    intervaloMemorias =
+        setInterval(
+            () => {
 
-        }, 8000);
+                mostrarMemoria(
+                    memoriaAtual + 1
+                );
+
+            },
+            5000
+        );
+
 }
 
 
-document.getElementById(
-    "btnAnterior"
-).addEventListener(
-    "click",
-    () => {
+/* =========================================================
+   REINICIAR CARROSSEL
+========================================================= */
 
-        mostrarSlide(
-            slideAtual - 1
+function reiniciarCarrossel() {
+
+    iniciarCarrossel();
+
+}
+
+
+/* =========================================================
+   BOTÃO ANTERIOR
+========================================================= */
+
+if (botaoAnterior) {
+
+    botaoAnterior.addEventListener(
+        "click",
+        slideAnterior
+    );
+
+}
+
+
+/* =========================================================
+   BOTÃO PRÓXIMO
+========================================================= */
+
+if (botaoProximo) {
+
+    botaoProximo.addEventListener(
+        "click",
+        proximoSlide
+    );
+
+}
+
+
+/* =========================================================
+   INDICADORES
+========================================================= */
+
+indicadoresAlbum.forEach(
+    (indicador, indice) => {
+
+        indicador.addEventListener(
+            "click",
+            () => {
+
+                mostrarMemoria(indice);
+
+                reiniciarCarrossel();
+
+            }
         );
-
-        iniciarCarrossel();
 
     }
 );
 
 
-document.getElementById(
-    "btnProximo"
-).addEventListener(
-    "click",
-    () => {
+/* =========================================================
+   PRIMEIRO SLIDE
+========================================================= */
 
-        mostrarSlide(
-            slideAtual + 1
-        );
-
-        iniciarCarrossel();
-
-    }
-);
-
+mostrarMemoria(0);
 
 /* =========================================================
    ENVELOPE
@@ -931,4 +1009,202 @@ document.addEventListener(
 
     }
 );
+
+/* =========================================================
+   A TUA HISTÓRIA
+========================================================= */
+
+const historias =
+    document.querySelectorAll(".historia-item");
+
+const pontosHistoria =
+    document.querySelectorAll(".historia-ponto");
+
+const historiaAnterior =
+    document.getElementById("historiaAnterior");
+
+const historiaProximo =
+    document.getElementById("historiaProximo");
+
+
+let historiaAtual = 0;
+
+let intervaloHistoria = null;
+
+
+/* =========================================================
+   MOSTRAR CAPÍTULO
+========================================================= */
+
+function mostrarHistoria(indice) {
+
+    if (historias.length === 0) {
+        return;
+    }
+
+
+    historiaAtual =
+        (indice + historias.length)
+        %
+        historias.length;
+
+
+    historias.forEach(
+        historia => {
+
+            historia.classList.remove(
+                "ativo"
+            );
+
+        }
+    );
+
+
+    pontosHistoria.forEach(
+        ponto => {
+
+            ponto.classList.remove(
+                "ativo"
+            );
+
+        }
+    );
+
+
+    historias[
+        historiaAtual
+    ].classList.add("ativo");
+
+
+    if (pontosHistoria[historiaAtual]) {
+
+        pontosHistoria[
+            historiaAtual
+        ].classList.add("ativo");
+
+    }
+
+}
+
+
+/* =========================================================
+   PRÓXIMO
+========================================================= */
+
+function proximaHistoria() {
+
+    mostrarHistoria(
+        historiaAtual + 1
+    );
+
+    reiniciarHistoria();
+
+}
+
+
+/* =========================================================
+   ANTERIOR
+========================================================= */
+
+function historiaAnteriorFunc() {
+
+    mostrarHistoria(
+        historiaAtual - 1
+    );
+
+    reiniciarHistoria();
+
+}
+
+
+/* =========================================================
+   AUTOMÁTICO
+========================================================= */
+
+function iniciarHistoria() {
+
+    clearInterval(
+        intervaloHistoria
+    );
+
+
+    intervaloHistoria =
+        setInterval(
+            () => {
+
+                mostrarHistoria(
+                    historiaAtual + 1
+                );
+
+            },
+            6000
+        );
+
+}
+
+
+/* =========================================================
+   REINICIAR
+========================================================= */
+
+function reiniciarHistoria() {
+
+    iniciarHistoria();
+
+}
+
+
+/* =========================================================
+   BOTÕES
+========================================================= */
+
+if (historiaAnterior) {
+
+    historiaAnterior.addEventListener(
+        "click",
+        historiaAnteriorFunc
+    );
+
+}
+
+
+if (historiaProximo) {
+
+    historiaProximo.addEventListener(
+        "click",
+        proximaHistoria
+    );
+
+}
+
+
+/* =========================================================
+   INDICADORES
+========================================================= */
+
+pontosHistoria.forEach(
+    (ponto, indice) => {
+
+        ponto.addEventListener(
+            "click",
+            () => {
+
+                mostrarHistoria(indice);
+
+                reiniciarHistoria();
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   INICIAR
+========================================================= */
+
+mostrarHistoria(0);
+
+iniciarHistoria();
 

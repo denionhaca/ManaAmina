@@ -318,10 +318,6 @@
         </section>
 
 
-        <!-- =====================================================
-             ÁLBUM
-        ====================================================== -->
-
         <section id="album" class="secao album-secao">
 
             <div class="etiqueta-secao">
@@ -339,29 +335,61 @@
 
             <div class="carrossel">
 
-                <button id="btnAnterior" class="seta seta-esquerda">
+                <button id="btnAnterior" class="seta seta-esquerda" type="button">
                     ‹
                 </button>
+
 
                 <div class="moldura-foto">
 
                     <div class="foto-carrossel">
 
-                        <img id="imagemCarrossel" src="IMG/Adolescente.jpeg" alt="Memória especial">
+                        <!-- SLIDE 1 -->
+                        <div class="slide-album ativo">
 
-                        <div class="foto-legenda" id="fotoLegenda">
-                            Uma memória especial ❤️
+                            <img src="IMG/YY.jpeg" alt="Uma memória especial">
+
+                            <div class="legenda-slide">
+                                Uma memória especial ❤️
+                            </div>
+
+                        </div>
+
+
+                        <!-- SLIDE 2 -->
+                        <div class="slide-album">
+
+                            <img src="IMG/DeRosa.jpeg" alt="Um momento especial">
+
+                            <div class="legenda-slide">
+                                Um momento que guardamos com carinho 🌷
+                            </div>
+
+                        </div>
+
+
+                        <!-- SLIDE 3 -->
+                        <div class="slide-album">
+
+                            <img src="IMG/Aeroporto.jpeg" alt="Mais uma memória">
+
+                            <div class="legenda-slide">
+                                Mais uma página da nossa história ✨
+                            </div>
+
                         </div>
 
                     </div>
 
                 </div>
 
-                <button id="btnProximo" class="seta seta-direita">
+
+                <button id="btnProximo" class="seta seta-direita" type="button">
                     ›
                 </button>
 
             </div>
+
 
             <div class="indicadores" id="indicadores">
 
@@ -372,7 +400,6 @@
             </div>
 
         </section>
-
 
         <!-- =====================================================
              CARTA
@@ -675,19 +702,138 @@
 
                 <div class="portal-video">
 
-                    <div class="video-placeholder">
+                    <div class="historia">
 
-                        <div class="video-brilho">
-                            ♥
+                        <div class="historia-topo">
+                            <span>✦ A TUA HISTÓRIA ✦</span>
+                            <h3>Capítulos de uma vida especial</h3>
                         </div>
 
-                        <span>
-                            A tua história
-                        </span>
+                        <div class="historia-fotos">
 
-                        <small>
-                            Esta área não foi trabalhada.
-                        </small>
+                            <!-- CAPÍTULO 1 -->
+                            <div class="historia-item ativo">
+
+                                <img src="IMG/Criancas.jpeg" alt="Infância">
+
+                                <div class="historia-texto">
+                                    <span>CAPÍTULO I</span>
+
+                                    <h4>Onde tudo começou</h4>
+
+                                    <p>
+                                        Tudo começou com uma pequena menina
+                                        que ainda não sabia quantas histórias
+                                        bonitas viveria.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <!-- CAPÍTULO 2 -->
+                            <div class="historia-item">
+
+                                <img src="IMG/Scrianca.jpeg" alt="Adolescência">
+
+                                <div class="historia-texto">
+                                    <span>CAPÍTULO II</span>
+
+                                    <h4>Os sonhos começaram a crescer</h4>
+
+                                    <p>
+                                        Os anos passaram, os sonhos cresceram
+                                        e aquela menina começou a descobrir
+                                        quem realmente era.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <!-- CAPÍTULO 3 -->
+                            <div class="historia-item">
+
+                                <img src="IMG/Adolescente.jpeg" alt="Memórias em família">
+
+                                <div class="historia-texto">
+                                    <span>CAPÍTULO III</span>
+
+                                    <h4>Memórias que ficaram</h4>
+
+                                    <p>
+                                        Vieram momentos, pessoas, risos e
+                                        histórias que hoje guardamos com
+                                        carinho no coração.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <!-- CAPÍTULO 4 -->
+                            <div class="historia-item">
+
+                                <img src="IMG/DeRosa.jpeg" alt="Um momento especial">
+
+                                <div class="historia-texto">
+                                    <span>CAPÍTULO IV</span>
+
+                                    <h4>A mulher que és hoje</h4>
+
+                                    <p>
+                                        E hoje vemos uma mulher forte,
+                                        encantadora e cheia de motivos
+                                        para nos orgulharmos.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <!-- CAPÍTULO 5 -->
+                            <div class="historia-item">
+
+                                <img src="IMG/PorVir.jpeg" alt="Um momento recente">
+
+                                <div class="historia-texto">
+                                    <span>CAPÍTULO V</span>
+
+                                    <h4>O que ainda está por vir</h4>
+
+                                    <p>
+                                        Mas talvez a parte mais bonita seja
+                                        saber que esta história ainda está
+                                        apenas começando. ✨
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="historia-controles">
+
+                            <button id="historiaAnterior" aria-label="Capítulo anterior">
+                                ‹
+                            </button>
+
+                            <div class="historia-indicadores">
+
+                                <span class="historia-ponto ativo"></span>
+                                <span class="historia-ponto"></span>
+                                <span class="historia-ponto"></span>
+                                <span class="historia-ponto"></span>
+                                <span class="historia-ponto"></span>
+
+                            </div>
+
+                            <button id="historiaProximo" aria-label="Próximo capítulo">
+                                ›
+                            </button>
+
+                        </div>
 
                     </div>
 
