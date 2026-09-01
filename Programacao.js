@@ -1,17 +1,6 @@
-
 /* =========================================================
    CONFIGURAÇÃO PRINCIPAL
 ========================================================= */
-
-/*
-    ALTERE AQUI A DATA DE NASCIMENTO.
-
-    Exemplo:
-    01/09/1996 às 02:00
-
-    JavaScript usa:
-    ano, mês - 1, dia, hora, minuto
-*/
 
 const DATA_NASCIMENTO = new Date(
     2002,
@@ -82,9 +71,15 @@ let intervaloGalaxia = null;
 
 let intervaloVida = null;
 
+let intervaloSlides = null;
+
 let slideAtual = 0;
 
-let intervaloSlides = null;
+let intervaloHistoria = null;
+
+let historiaAtual = 0;
+
+let intervaloPetalas = null;
 
 
 /* =========================================================
@@ -96,6 +91,7 @@ function esperar(ms) {
     return new Promise(
         resolve => setTimeout(resolve, ms)
     );
+
 }
 
 
@@ -103,45 +99,69 @@ function esperar(ms) {
    TELA INICIAL
 ========================================================= */
 
-btnIniciar.addEventListener(
-    "click",
-    iniciarExperiencia
-);
+if (btnIniciar) {
+
+    btnIniciar.addEventListener(
+        "click",
+        iniciarExperiencia
+    );
+
+}
 
 
 async function iniciarExperiencia() {
 
-    btnIniciar.disabled = true;
+    if (btnIniciar) {
+        btnIniciar.disabled = true;
+    }
+
 
     /*
-        O áudio começa dentro da ação do clique,
-        respeitando o bloqueio de autoplay dos navegadores.
+        O áudio começa dentro do clique,
+        evitando problemas de autoplay.
     */
 
-    try {
+    if (musica) {
 
-        await musica.play();
+        try {
 
-        musicaTocando = true;
+            await musica.play();
 
-        atualizarPlayer();
+            musicaTocando = true;
 
-    } catch (erro) {
+            atualizarPlayer();
 
-        console.log(
-            "Não foi possível iniciar o áudio:",
-            erro
-        );
+        } catch (erro) {
+
+            console.log(
+                "Não foi possível iniciar o áudio:",
+                erro
+            );
+
+        }
 
     }
 
-    telaInicio.classList.add("oculta");
+
+    if (telaInicio) {
+
+        telaInicio.classList.add("oculta");
+
+    }
+
 
     await esperar(1000);
 
-    telaInicio.style.display = "none";
+
+    if (telaInicio) {
+
+        telaInicio.style.display = "none";
+
+    }
+
 
     iniciarCountdown();
+
 }
 
 
@@ -151,19 +171,42 @@ async function iniciarExperiencia() {
 
 function iniciarCountdown() {
 
+    if (!cinema) {
+        return;
+    }
+
+
     cinema.classList.add("ativa");
+
 
     let numero = 10;
 
-    numeroCountdown.textContent = numero;
+
+    if (numeroCountdown) {
+
+        numeroCountdown.textContent = numero;
+
+    }
+
+
+    clearInterval(
+        intervaloCountdown
+    );
+
 
     intervaloCountdown =
         setInterval(() => {
 
             numero--;
 
-            numeroCountdown.textContent =
-                numero;
+
+            if (numeroCountdown) {
+
+                numeroCountdown.textContent =
+                    numero;
+
+            }
+
 
             if (numero <= 0) {
 
@@ -172,9 +215,11 @@ function iniciarCountdown() {
                 );
 
                 iniciarGalaxia();
+
             }
 
         }, 1000);
+
 }
 
 
@@ -184,21 +229,49 @@ function iniciarCountdown() {
 
 function iniciarGalaxia() {
 
-    cinema.classList.remove("ativa");
+    if (cinema) {
 
-    galaxia.classList.add("ativa");
+        cinema.classList.remove("ativa");
+
+    }
+
+
+    if (galaxia) {
+
+        galaxia.classList.add("ativa");
+
+    }
+
 
     let tempo = 18;
 
-    tempoGalaxia.textContent = tempo;
+
+    if (tempoGalaxia) {
+
+        tempoGalaxia.textContent =
+            tempo;
+
+    }
+
+
+    clearInterval(
+        intervaloGalaxia
+    );
+
 
     intervaloGalaxia =
         setInterval(() => {
 
             tempo--;
 
-            tempoGalaxia.textContent =
-                tempo;
+
+            if (tempoGalaxia) {
+
+                tempoGalaxia.textContent =
+                    tempo;
+
+            }
+
 
             if (tempo <= 0) {
 
@@ -207,9 +280,11 @@ function iniciarGalaxia() {
                 );
 
                 iniciarRelogioVida();
+
             }
 
         }, 1000);
+
 }
 
 
@@ -217,31 +292,51 @@ function iniciarGalaxia() {
    PULAR INTRODUÇÃO
 ========================================================= */
 
-btnPular.addEventListener(
-    "click",
-    () => {
+if (btnPular) {
 
-        clearInterval(intervaloGalaxia);
+    btnPular.addEventListener(
+        "click",
+        () => {
 
-        iniciarRelogioVida();
+            clearInterval(
+                intervaloGalaxia
+            );
 
-    }
-);
+            iniciarRelogioVida();
+
+        }
+    );
+
+}
 
 
 /* =========================================================
-   RELÓGIO DE TEMPO DE VIDA
+   RELÓGIO DA VIDA
 ========================================================= */
 
 function iniciarRelogioVida() {
 
-    galaxia.classList.remove("ativa");
+    if (galaxia) {
 
-    vida.classList.add("ativa");
+        galaxia.classList.remove("ativa");
+
+    }
+
+
+    if (vida) {
+
+        vida.classList.add("ativa");
+
+    }
+
 
     atualizarIdade();
 
-    clearInterval(intervaloVida);
+
+    clearInterval(
+        intervaloVida
+    );
+
 
     intervaloVida =
         setInterval(
@@ -249,42 +344,60 @@ function iniciarRelogioVida() {
             1000
         );
 
+
     setTimeout(() => {
 
-        btnEntrar.classList.add("mostrar");
+        if (btnEntrar) {
+
+            btnEntrar.classList.add(
+                "mostrar"
+            );
+
+        }
 
     }, 3000);
+
 }
 
+
+/* =========================================================
+   ATUALIZAR IDADE
+========================================================= */
 
 function atualizarIdade() {
 
     const agora = new Date();
+
 
     let anos =
         agora.getFullYear()
         -
         DATA_NASCIMENTO.getFullYear();
 
+
     let meses =
         agora.getMonth()
         -
         DATA_NASCIMENTO.getMonth();
+
 
     let dias =
         agora.getDate()
         -
         DATA_NASCIMENTO.getDate();
 
+
     let horas =
         agora.getHours()
         -
         DATA_NASCIMENTO.getHours();
 
+
     let minutos =
         agora.getMinutes()
         -
         DATA_NASCIMENTO.getMinutes();
+
 
     let segundos =
         agora.getSeconds()
@@ -292,31 +405,32 @@ function atualizarIdade() {
         DATA_NASCIMENTO.getSeconds();
 
 
-    /*
-        Ajuste simples para manter
-        as unidades coerentes.
-    */
-
     if (segundos < 0) {
 
         segundos += 60;
 
         minutos--;
+
     }
+
 
     if (minutos < 0) {
 
         minutos += 60;
 
         horas--;
+
     }
+
 
     if (horas < 0) {
 
         horas += 24;
 
         dias--;
+
     }
+
 
     if (dias < 0) {
 
@@ -327,50 +441,102 @@ function atualizarIdade() {
                 0
             ).getDate();
 
+
         dias +=
             ultimoDiaMesAnterior;
 
         meses--;
+
     }
+
 
     if (meses < 0) {
 
         meses += 12;
 
         anos--;
+
     }
 
 
-    document.getElementById("anos")
-        .textContent =
-        formatarNumero(anos);
+    const elementoAnos =
+        document.getElementById("anos");
 
-    document.getElementById("meses")
-        .textContent =
-        formatarNumero(meses);
+    const elementoMeses =
+        document.getElementById("meses");
 
-    document.getElementById("dias")
-        .textContent =
-        formatarNumero(dias);
+    const elementoDias =
+        document.getElementById("dias");
 
-    document.getElementById("horas")
-        .textContent =
-        formatarNumero(horas);
+    const elementoHoras =
+        document.getElementById("horas");
 
-    document.getElementById("minutos")
-        .textContent =
-        formatarNumero(minutos);
+    const elementoMinutos =
+        document.getElementById("minutos");
 
-    document.getElementById("segundos")
-        .textContent =
-        formatarNumero(segundos);
+    const elementoSegundos =
+        document.getElementById("segundos");
+
+
+    if (elementoAnos) {
+
+        elementoAnos.textContent =
+            formatarNumero(anos);
+
+    }
+
+
+    if (elementoMeses) {
+
+        elementoMeses.textContent =
+            formatarNumero(meses);
+
+    }
+
+
+    if (elementoDias) {
+
+        elementoDias.textContent =
+            formatarNumero(dias);
+
+    }
+
+
+    if (elementoHoras) {
+
+        elementoHoras.textContent =
+            formatarNumero(horas);
+
+    }
+
+
+    if (elementoMinutos) {
+
+        elementoMinutos.textContent =
+            formatarNumero(minutos);
+
+    }
+
+
+    if (elementoSegundos) {
+
+        elementoSegundos.textContent =
+            formatarNumero(segundos);
+
+    }
+
 }
 
+
+/* =========================================================
+   FORMATAR NÚMERO
+========================================================= */
 
 function formatarNumero(numero) {
 
     return String(numero)
         .padStart(2, "0");
+
 }
 
 
@@ -378,30 +544,61 @@ function formatarNumero(numero) {
    ENTRAR NO SITE
 ========================================================= */
 
-btnEntrar.addEventListener(
-    "click",
-    entrarNoSite
-);
+if (btnEntrar) {
+
+    btnEntrar.addEventListener(
+        "click",
+        entrarNoSite
+    );
+
+}
 
 
 function entrarNoSite() {
 
-    clearInterval(intervaloVida);
+    clearInterval(
+        intervaloVida
+    );
 
-    vida.classList.remove("ativa");
 
-    sitePrincipal.classList.add("visivel");
+    if (vida) {
+
+        vida.classList.remove("ativa");
+
+    }
+
+
+    if (sitePrincipal) {
+
+        sitePrincipal.classList.add(
+            "visivel"
+        );
+
+    }
+
 
     verificarVisita();
 
+
+    /*
+        O carrossel é iniciado somente
+        quando o site principal aparece.
+    */
+
     iniciarCarrossel();
 
+
+    iniciarHistoria();
+
+
     iniciarChuvaPetalas();
+
 
     window.scrollTo({
         top: 0,
         behavior: "instant"
     });
+
 }
 
 
@@ -416,10 +613,17 @@ function verificarVisita() {
             "aniversario_irma_visita"
         );
 
+
     const titulo =
         document.getElementById(
             "tituloVisita"
         );
+
+
+    if (!titulo) {
+        return;
+    }
+
 
     if (jaVisitou) {
 
@@ -431,90 +635,114 @@ function verificarVisita() {
         titulo.textContent =
             "Seja muito bem-vinda à sua surpresa! 🎉";
 
+
         localStorage.setItem(
             "aniversario_irma_visita",
             "true"
         );
+
     }
+
 }
+
 
 /* =========================================================
    CARROSSEL DO ÁLBUM
+=========================================================
+
+   IMPORTANTE:
+   As imagens continuam SOMENTE no HTML.
+
+   O JavaScript apenas troca:
+   .slide-album
 ========================================================= */
 
 const slidesAlbum =
-    document.querySelectorAll(".slide-album");
+    document.querySelectorAll(
+        ".slide-album"
+    );
+
 
 const indicadoresAlbum =
-    document.querySelectorAll(".indicador");
+    document.querySelectorAll(
+        ".indicador"
+    );
+
 
 const botaoAnterior =
-    document.getElementById("btnAnterior");
+    document.getElementById(
+        "btnAnterior"
+    );
+
 
 const botaoProximo =
-    document.getElementById("btnProximo");
-
-
-let memoriaAtual = 0;
-
-let intervaloMemorias = null;
+    document.getElementById(
+        "btnProximo"
+    );
 
 
 /* =========================================================
    MOSTRAR SLIDE
 ========================================================= */
 
-function mostrarMemoria(indice) {
+function mostrarSlide(indice) {
 
     if (slidesAlbum.length === 0) {
+
         return;
+
     }
 
 
-    /* Mantém o índice dentro da quantidade de slides */
-
-    memoriaAtual =
-        (indice + slidesAlbum.length)
+    slideAtual =
+        (
+            indice +
+            slidesAlbum.length
+        )
         %
         slidesAlbum.length;
 
 
-    /* Remove o ativo de todos os slides */
-
     slidesAlbum.forEach(
         slide => {
 
-            slide.classList.remove("ativo");
+            slide.classList.remove(
+                "ativo"
+            );
 
         }
     );
 
-
-    /* Remove o ativo de todos os indicadores */
 
     indicadoresAlbum.forEach(
         indicador => {
 
-            indicador.classList.remove("ativo");
+            indicador.classList.remove(
+                "ativo"
+            );
 
         }
     );
 
 
-    /* Ativa o slide atual */
-
     slidesAlbum[
-        memoriaAtual
-    ].classList.add("ativo");
+        slideAtual
+    ].classList.add(
+        "ativo"
+    );
 
 
-    /* Ativa o indicador correspondente */
-
-    if (indicadoresAlbum[memoriaAtual]) {
+    if (
+        indicadoresAlbum[
+        slideAtual
+        ]
+    ) {
 
         indicadoresAlbum[
-            memoriaAtual
-        ].classList.add("ativo");
+            slideAtual
+        ].classList.add(
+            "ativo"
+        );
 
     }
 
@@ -527,9 +755,10 @@ function mostrarMemoria(indice) {
 
 function proximoSlide() {
 
-    mostrarMemoria(
-        memoriaAtual + 1
+    mostrarSlide(
+        slideAtual + 1
     );
+
 
     reiniciarCarrossel();
 
@@ -542,9 +771,10 @@ function proximoSlide() {
 
 function slideAnterior() {
 
-    mostrarMemoria(
-        memoriaAtual - 1
+    mostrarSlide(
+        slideAtual - 1
     );
+
 
     reiniciarCarrossel();
 
@@ -558,16 +788,23 @@ function slideAnterior() {
 function iniciarCarrossel() {
 
     clearInterval(
-        intervaloMemorias
+        intervaloSlides
     );
 
 
-    intervaloMemorias =
+    if (slidesAlbum.length <= 1) {
+
+        return;
+
+    }
+
+
+    intervaloSlides =
         setInterval(
             () => {
 
-                mostrarMemoria(
-                    memoriaAtual + 1
+                mostrarSlide(
+                    slideAtual + 1
                 );
 
             },
@@ -627,7 +864,10 @@ indicadoresAlbum.forEach(
             "click",
             () => {
 
-                mostrarMemoria(indice);
+                mostrarSlide(
+                    indice
+                );
+
 
                 reiniciarCarrossel();
 
@@ -642,22 +882,27 @@ indicadoresAlbum.forEach(
    PRIMEIRO SLIDE
 ========================================================= */
 
-mostrarMemoria(0);
+mostrarSlide(0);
+
 
 /* =========================================================
    ENVELOPE
 ========================================================= */
 
-envelope.addEventListener(
-    "click",
-    () => {
+if (envelope) {
 
-        envelope.classList.toggle(
-            "aberto"
-        );
+    envelope.addEventListener(
+        "click",
+        () => {
 
-    }
-);
+            envelope.classList.toggle(
+                "aberto"
+            );
+
+        }
+    );
+
+}
 
 
 /* =========================================================
@@ -669,10 +914,12 @@ const modalCapsula =
         "modalCapsula"
     );
 
+
 const mensagemCapsula =
     document.getElementById(
         "mensagemCapsula"
     );
+
 
 const fecharModal =
     document.getElementById(
@@ -693,15 +940,24 @@ capsulas.forEach(
             "click",
             () => {
 
-                const mensagem =
-                    capsula.dataset.mensagem;
+                if (
+                    mensagemCapsula &&
+                    modalCapsula
+                ) {
 
-                mensagemCapsula.textContent =
-                    mensagem;
+                    const mensagem =
+                        capsula.dataset.mensagem;
 
-                modalCapsula.classList.add(
-                    "aberto"
-                );
+
+                    mensagemCapsula.textContent =
+                        mensagem;
+
+
+                    modalCapsula.classList.add(
+                        "aberto"
+                    );
+
+                }
 
             }
         );
@@ -710,34 +966,52 @@ capsulas.forEach(
 );
 
 
+/* =========================================================
+   FECHAR CÁPSULA
+========================================================= */
+
 function fecharCapsula() {
 
-    modalCapsula.classList.remove(
-        "aberto"
-    );
+    if (modalCapsula) {
+
+        modalCapsula.classList.remove(
+            "aberto"
+        );
+
+    }
+
 }
 
 
-fecharModal.addEventListener(
-    "click",
-    fecharCapsula
-);
+if (fecharModal) {
+
+    fecharModal.addEventListener(
+        "click",
+        fecharCapsula
+    );
+
+}
 
 
-modalCapsula.addEventListener(
-    "click",
-    evento => {
+if (modalCapsula) {
 
-        if (
-            evento.target ===
-            modalCapsula
-        ) {
+    modalCapsula.addEventListener(
+        "click",
+        evento => {
 
-            fecharCapsula();
+            if (
+                evento.target ===
+                modalCapsula
+            ) {
+
+                fecharCapsula();
+
+            }
+
         }
+    );
 
-    }
-);
+}
 
 
 /* =========================================================
@@ -749,20 +1023,24 @@ const senhaPortal =
         "senhaPortal"
     );
 
+
 const btnPortal =
     document.getElementById(
         "btnPortal"
     );
+
 
 const erroSenha =
     document.getElementById(
         "erroSenha"
     );
 
+
 const portalTelaCheia =
     document.getElementById(
         "portalTelaCheia"
     );
+
 
 const fecharPortal =
     document.getElementById(
@@ -770,132 +1048,222 @@ const fecharPortal =
     );
 
 
-btnPortal.addEventListener(
-    "click",
-    verificarSenha
-);
+if (btnPortal) {
+
+    btnPortal.addEventListener(
+        "click",
+        verificarSenha
+    );
+
+}
 
 
-senhaPortal.addEventListener(
-    "keydown",
-    evento => {
+if (senhaPortal) {
 
-        if (
-            evento.key ===
-            "Enter"
-        ) {
+    senhaPortal.addEventListener(
+        "keydown",
+        evento => {
 
-            verificarSenha();
+            if (
+                evento.key ===
+                "Enter"
+            ) {
+
+                verificarSenha();
+
+            }
+
         }
+    );
 
-    }
-);
+}
 
 
 function verificarSenha() {
 
+    if (!senhaPortal) {
+        return;
+    }
+
+
     const senha =
-        senhaPortal.value
-            .trim();
+        senhaPortal.value.trim();
+
 
     if (senha === "01/09") {
 
-        erroSenha.classList.remove(
-            "visivel"
-        );
+        if (erroSenha) {
 
-        portalTelaCheia.classList.add(
-            "aberto"
-        );
+            erroSenha.classList.remove(
+                "visivel"
+            );
+
+        }
+
+
+        if (portalTelaCheia) {
+
+            portalTelaCheia.classList.add(
+                "aberto"
+            );
+
+        }
+
 
         document.body.style.overflow =
             "hidden";
 
     } else {
 
-        erroSenha.classList.add(
-            "visivel"
-        );
+        if (erroSenha) {
+
+            erroSenha.classList.add(
+                "visivel"
+            );
+
+        }
+
 
         senhaPortal.focus();
 
-        senhaPortal.animate(
-            [
+
+        if (
+            senhaPortal.animate
+        ) {
+
+            senhaPortal.animate(
+                [
+                    {
+                        transform:
+                            "translateX(0)"
+                    },
+                    {
+                        transform:
+                            "translateX(-8px)"
+                    },
+                    {
+                        transform:
+                            "translateX(8px)"
+                    },
+                    {
+                        transform:
+                            "translateX(0)"
+                    }
+                ],
                 {
-                    transform:
-                        "translateX(0)"
-                },
-                {
-                    transform:
-                        "translateX(-8px)"
-                },
-                {
-                    transform:
-                        "translateX(8px)"
-                },
-                {
-                    transform:
-                        "translateX(0)"
+                    duration: 350
                 }
-            ],
-            {
-                duration: 350
-            }
-        );
+            );
+
+        }
+
     }
+
 }
 
 
-fecharPortal.addEventListener(
-    "click",
-    () => {
+/* =========================================================
+   FECHAR PORTAL
+========================================================= */
 
-        portalTelaCheia.classList.remove(
-            "aberto"
-        );
+if (fecharPortal) {
 
-        document.body.style.overflow =
-            "";
+    fecharPortal.addEventListener(
+        "click",
+        () => {
 
-    }
-);
+            if (portalTelaCheia) {
+
+                portalTelaCheia.classList.remove(
+                    "aberto"
+                );
+
+            }
+
+
+            document.body.style.overflow =
+                "";
+
+        }
+    );
+
+}
 
 
 /* =========================================================
    PLAYER DE MÚSICA
 ========================================================= */
 
-playerMusica.addEventListener(
-    "click",
-    alternarMusica
-);
+if (playerMusica) {
+
+    playerMusica.addEventListener(
+        "click",
+        alternarMusica
+    );
+
+}
 
 
 function alternarMusica() {
 
+    if (!musica) {
+        return;
+    }
+
+
     if (musica.paused) {
 
-        musica.play();
+        musica.play()
+            .then(() => {
 
-        musicaTocando = true;
+                musicaTocando = true;
+
+                atualizarPlayer();
+
+            })
+            .catch(erro => {
+
+                console.log(
+                    "Não foi possível tocar a música:",
+                    erro
+                );
+
+            });
 
     } else {
 
         musica.pause();
 
         musicaTocando = false;
+
+        atualizarPlayer();
+
     }
 
-    atualizarPlayer();
 }
 
 
+/* =========================================================
+   ATUALIZAR PLAYER
+========================================================= */
+
 function atualizarPlayer() {
+
+    if (
+        !iconeMusica ||
+        !playerMusica
+    ) {
+
+        return;
+
+    }
+
 
     if (musicaTocando) {
 
         iconeMusica.textContent =
             "♫";
+
 
         playerMusica.classList.remove(
             "pausado"
@@ -906,10 +1274,13 @@ function atualizarPlayer() {
         iconeMusica.textContent =
             "▶";
 
+
         playerMusica.classList.add(
             "pausado"
         );
+
     }
+
 }
 
 
@@ -919,28 +1290,43 @@ function atualizarPlayer() {
 
 function criarPetala() {
 
+    const recipiente =
+        document.getElementById(
+            "petalas"
+        );
+
+
+    if (!recipiente) {
+        return;
+    }
+
+
     const petala =
         document.createElement(
             "span"
         );
 
+
     petala.className =
         "petala";
 
-    petala.textContent =
-        Math.random() > .5
-            ? "♡"
-            : "✦";
+
+    petala.textContent = Math.random() > 0.5
+        ? "♡"
+        : "✦";
 
 
     const tamanho =
         Math.random() * 12 + 8;
 
+
     const esquerda =
         Math.random() * 100;
 
+
     const duracao =
         Math.random() * 8 + 7;
+
 
     const vento =
         Math.random() * 200 - 100;
@@ -949,11 +1335,14 @@ function criarPetala() {
     petala.style.left =
         `${esquerda}%`;
 
+
     petala.style.fontSize =
         `${tamanho}px`;
 
+
     petala.style.animationDuration =
         `${duracao}s`;
+
 
     petala.style.setProperty(
         "--vento",
@@ -961,9 +1350,9 @@ function criarPetala() {
     );
 
 
-    document
-        .getElementById("petalas")
-        .appendChild(petala);
+    recipiente.appendChild(
+        petala
+    );
 
 
     setTimeout(() => {
@@ -971,65 +1360,66 @@ function criarPetala() {
         petala.remove();
 
     }, duracao * 1000);
+
 }
 
+
+/* =========================================================
+   INICIAR CHUVA DE PÉTALAS
+========================================================= */
 
 function iniciarChuvaPetalas() {
 
-    setInterval(
-        criarPetala,
-        650
-    );
+    if (intervaloPetalas) {
+        return;
+    }
+
+
+    criarPetala();
+
+
+    intervaloPetalas =
+        setInterval(
+            criarPetala,
+            650
+        );
+
 }
 
 
 /* =========================================================
-   TECLADO
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    evento => {
-
-        if (
-            evento.key ===
-            "Escape"
-        ) {
-
-            fecharCapsula();
-
-            portalTelaCheia.classList.remove(
-                "aberto"
-            );
-
-            document.body.style.overflow =
-                "";
-
-        }
-
-    }
-);
-
-/* =========================================================
    A TUA HISTÓRIA
+=========================================================
+
+   As imagens dos capítulos continuam
+   exclusivamente no HTML.
+
+   O JavaScript apenas alterna
+   os elementos .historia-item.
 ========================================================= */
 
 const historias =
-    document.querySelectorAll(".historia-item");
+    document.querySelectorAll(
+        ".historia-item"
+    );
+
 
 const pontosHistoria =
-    document.querySelectorAll(".historia-ponto");
+    document.querySelectorAll(
+        ".historia-ponto"
+    );
+
 
 const historiaAnterior =
-    document.getElementById("historiaAnterior");
+    document.getElementById(
+        "historiaAnterior"
+    );
+
 
 const historiaProximo =
-    document.getElementById("historiaProximo");
-
-
-let historiaAtual = 0;
-
-let intervaloHistoria = null;
+    document.getElementById(
+        "historiaProximo"
+    );
 
 
 /* =========================================================
@@ -1039,12 +1429,17 @@ let intervaloHistoria = null;
 function mostrarHistoria(indice) {
 
     if (historias.length === 0) {
+
         return;
+
     }
 
 
     historiaAtual =
-        (indice + historias.length)
+        (
+            indice +
+            historias.length
+        )
         %
         historias.length;
 
@@ -1073,14 +1468,22 @@ function mostrarHistoria(indice) {
 
     historias[
         historiaAtual
-    ].classList.add("ativo");
+    ].classList.add(
+        "ativo"
+    );
 
 
-    if (pontosHistoria[historiaAtual]) {
+    if (
+        pontosHistoria[
+        historiaAtual
+        ]
+    ) {
 
         pontosHistoria[
             historiaAtual
-        ].classList.add("ativo");
+        ].classList.add(
+            "ativo"
+        );
 
     }
 
@@ -1088,7 +1491,7 @@ function mostrarHistoria(indice) {
 
 
 /* =========================================================
-   PRÓXIMO
+   PRÓXIMO CAPÍTULO
 ========================================================= */
 
 function proximaHistoria() {
@@ -1097,13 +1500,14 @@ function proximaHistoria() {
         historiaAtual + 1
     );
 
+
     reiniciarHistoria();
 
 }
 
 
 /* =========================================================
-   ANTERIOR
+   CAPÍTULO ANTERIOR
 ========================================================= */
 
 function historiaAnteriorFunc() {
@@ -1112,13 +1516,14 @@ function historiaAnteriorFunc() {
         historiaAtual - 1
     );
 
+
     reiniciarHistoria();
 
 }
 
 
 /* =========================================================
-   AUTOMÁTICO
+   CARROSSEL AUTOMÁTICO DA HISTÓRIA
 ========================================================= */
 
 function iniciarHistoria() {
@@ -1126,6 +1531,13 @@ function iniciarHistoria() {
     clearInterval(
         intervaloHistoria
     );
+
+
+    if (historias.length <= 1) {
+
+        return;
+
+    }
 
 
     intervaloHistoria =
@@ -1144,7 +1556,7 @@ function iniciarHistoria() {
 
 
 /* =========================================================
-   REINICIAR
+   REINICIAR HISTÓRIA
 ========================================================= */
 
 function reiniciarHistoria() {
@@ -1155,7 +1567,7 @@ function reiniciarHistoria() {
 
 
 /* =========================================================
-   BOTÕES
+   BOTÃO HISTÓRIA ANTERIOR
 ========================================================= */
 
 if (historiaAnterior) {
@@ -1168,6 +1580,10 @@ if (historiaAnterior) {
 }
 
 
+/* =========================================================
+   BOTÃO HISTÓRIA PRÓXIMO
+========================================================= */
+
 if (historiaProximo) {
 
     historiaProximo.addEventListener(
@@ -1179,7 +1595,7 @@ if (historiaProximo) {
 
 
 /* =========================================================
-   INDICADORES
+   INDICADORES DA HISTÓRIA
 ========================================================= */
 
 pontosHistoria.forEach(
@@ -1189,7 +1605,10 @@ pontosHistoria.forEach(
             "click",
             () => {
 
-                mostrarHistoria(indice);
+                mostrarHistoria(
+                    indice
+                );
+
 
                 reiniciarHistoria();
 
@@ -1201,10 +1620,41 @@ pontosHistoria.forEach(
 
 
 /* =========================================================
-   INICIAR
+   PRIMEIRO CAPÍTULO
 ========================================================= */
 
 mostrarHistoria(0);
 
-iniciarHistoria();
 
+/* =========================================================
+   TECLADO
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    evento => {
+
+        if (
+            evento.key ===
+            "Escape"
+        ) {
+
+            fecharCapsula();
+
+
+            if (portalTelaCheia) {
+
+                portalTelaCheia.classList.remove(
+                    "aberto"
+                );
+
+            }
+
+
+            document.body.style.overflow =
+                "";
+
+        }
+
+    }
+);
