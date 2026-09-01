@@ -13,6 +13,28 @@ const DATA_NASCIMENTO = new Date(
 
 
 /* =========================================================
+   FUNÇÃO UNIVERSAL PARA CLIQUE/TOQUE (CORREÇÃO MOBILE)
+========================================================= */
+
+function adicionarEventoUniversal(elemento, funcao) {
+    if (!elemento) return;
+
+    // Remove eventos antigos para evitar duplicação
+    elemento.removeEventListener('click', funcao);
+    elemento.removeEventListener('touchend', funcao);
+
+    // Adiciona suporte a clique (desktop)
+    elemento.addEventListener('click', funcao);
+
+    // Adiciona suporte a toque (mobile) com prevenção de duplo clique
+    elemento.addEventListener('touchend', function (e) {
+        e.preventDefault();
+        funcao(e);
+    });
+}
+
+
+/* =========================================================
    ELEMENTOS
 ========================================================= */
 
@@ -100,12 +122,7 @@ function esperar(ms) {
 ========================================================= */
 
 if (btnIniciar) {
-
-    btnIniciar.addEventListener(
-        "click",
-        iniciarExperiencia
-    );
-
+    adicionarEventoUniversal(btnIniciar, iniciarExperiencia);
 }
 
 
@@ -114,12 +131,6 @@ async function iniciarExperiencia() {
     if (btnIniciar) {
         btnIniciar.disabled = true;
     }
-
-
-    /*
-        O áudio começa dentro do clique,
-        evitando problemas de autoplay.
-    */
 
     if (musica) {
 
@@ -142,23 +153,19 @@ async function iniciarExperiencia() {
 
     }
 
-
     if (telaInicio) {
 
         telaInicio.classList.add("oculta");
 
     }
 
-
     await esperar(1000);
-
 
     if (telaInicio) {
 
         telaInicio.style.display = "none";
 
     }
-
 
     iniciarCountdown();
 
@@ -175,12 +182,9 @@ function iniciarCountdown() {
         return;
     }
 
-
     cinema.classList.add("ativa");
 
-
     let numero = 10;
-
 
     if (numeroCountdown) {
 
@@ -188,17 +192,14 @@ function iniciarCountdown() {
 
     }
 
-
     clearInterval(
         intervaloCountdown
     );
-
 
     intervaloCountdown =
         setInterval(() => {
 
             numero--;
-
 
             if (numeroCountdown) {
 
@@ -206,7 +207,6 @@ function iniciarCountdown() {
                     numero;
 
             }
-
 
             if (numero <= 0) {
 
@@ -235,16 +235,13 @@ function iniciarGalaxia() {
 
     }
 
-
     if (galaxia) {
 
         galaxia.classList.add("ativa");
 
     }
 
-
     let tempo = 18;
-
 
     if (tempoGalaxia) {
 
@@ -253,17 +250,14 @@ function iniciarGalaxia() {
 
     }
 
-
     clearInterval(
         intervaloGalaxia
     );
-
 
     intervaloGalaxia =
         setInterval(() => {
 
             tempo--;
-
 
             if (tempoGalaxia) {
 
@@ -271,7 +265,6 @@ function iniciarGalaxia() {
                     tempo;
 
             }
-
 
             if (tempo <= 0) {
 
@@ -293,20 +286,10 @@ function iniciarGalaxia() {
 ========================================================= */
 
 if (btnPular) {
-
-    btnPular.addEventListener(
-        "click",
-        () => {
-
-            clearInterval(
-                intervaloGalaxia
-            );
-
-            iniciarRelogioVida();
-
-        }
-    );
-
+    adicionarEventoUniversal(btnPular, function () {
+        clearInterval(intervaloGalaxia);
+        iniciarRelogioVida();
+    });
 }
 
 
@@ -322,28 +305,23 @@ function iniciarRelogioVida() {
 
     }
 
-
     if (vida) {
 
         vida.classList.add("ativa");
 
     }
 
-
     atualizarIdade();
-
 
     clearInterval(
         intervaloVida
     );
-
 
     intervaloVida =
         setInterval(
             atualizarIdade,
             1000
         );
-
 
     setTimeout(() => {
 
@@ -368,42 +346,35 @@ function atualizarIdade() {
 
     const agora = new Date();
 
-
     let anos =
         agora.getFullYear()
         -
         DATA_NASCIMENTO.getFullYear();
-
 
     let meses =
         agora.getMonth()
         -
         DATA_NASCIMENTO.getMonth();
 
-
     let dias =
         agora.getDate()
         -
         DATA_NASCIMENTO.getDate();
-
 
     let horas =
         agora.getHours()
         -
         DATA_NASCIMENTO.getHours();
 
-
     let minutos =
         agora.getMinutes()
         -
         DATA_NASCIMENTO.getMinutes();
 
-
     let segundos =
         agora.getSeconds()
         -
         DATA_NASCIMENTO.getSeconds();
-
 
     if (segundos < 0) {
 
@@ -413,7 +384,6 @@ function atualizarIdade() {
 
     }
 
-
     if (minutos < 0) {
 
         minutos += 60;
@@ -422,7 +392,6 @@ function atualizarIdade() {
 
     }
 
-
     if (horas < 0) {
 
         horas += 24;
@@ -430,7 +399,6 @@ function atualizarIdade() {
         dias--;
 
     }
-
 
     if (dias < 0) {
 
@@ -441,14 +409,12 @@ function atualizarIdade() {
                 0
             ).getDate();
 
-
         dias +=
             ultimoDiaMesAnterior;
 
         meses--;
 
     }
-
 
     if (meses < 0) {
 
@@ -457,7 +423,6 @@ function atualizarIdade() {
         anos--;
 
     }
-
 
     const elementoAnos =
         document.getElementById("anos");
@@ -477,14 +442,12 @@ function atualizarIdade() {
     const elementoSegundos =
         document.getElementById("segundos");
 
-
     if (elementoAnos) {
 
         elementoAnos.textContent =
             formatarNumero(anos);
 
     }
-
 
     if (elementoMeses) {
 
@@ -493,14 +456,12 @@ function atualizarIdade() {
 
     }
 
-
     if (elementoDias) {
 
         elementoDias.textContent =
             formatarNumero(dias);
 
     }
-
 
     if (elementoHoras) {
 
@@ -509,14 +470,12 @@ function atualizarIdade() {
 
     }
 
-
     if (elementoMinutos) {
 
         elementoMinutos.textContent =
             formatarNumero(minutos);
 
     }
-
 
     if (elementoSegundos) {
 
@@ -545,12 +504,7 @@ function formatarNumero(numero) {
 ========================================================= */
 
 if (btnEntrar) {
-
-    btnEntrar.addEventListener(
-        "click",
-        entrarNoSite
-    );
-
+    adicionarEventoUniversal(btnEntrar, entrarNoSite);
 }
 
 
@@ -560,13 +514,11 @@ function entrarNoSite() {
         intervaloVida
     );
 
-
     if (vida) {
 
         vida.classList.remove("ativa");
 
     }
-
 
     if (sitePrincipal) {
 
@@ -576,23 +528,13 @@ function entrarNoSite() {
 
     }
 
-
     verificarVisita();
-
-
-    /*
-        O carrossel é iniciado somente
-        quando o site principal aparece.
-    */
 
     iniciarCarrossel();
 
-
     iniciarHistoria();
 
-
     iniciarChuvaPetalas();
-
 
     window.scrollTo({
         top: 0,
@@ -613,17 +555,14 @@ function verificarVisita() {
             "aniversario_irma_visita"
         );
 
-
     const titulo =
         document.getElementById(
             "tituloVisita"
         );
 
-
     if (!titulo) {
         return;
     }
-
 
     if (jaVisitou) {
 
@@ -634,7 +573,6 @@ function verificarVisita() {
 
         titulo.textContent =
             "Seja muito bem-vinda à sua surpresa! 🎉";
-
 
         localStorage.setItem(
             "aniversario_irma_visita",
@@ -648,13 +586,6 @@ function verificarVisita() {
 
 /* =========================================================
    CARROSSEL DO ÁLBUM
-=========================================================
-
-   IMPORTANTE:
-   As imagens continuam SOMENTE no HTML.
-
-   O JavaScript apenas troca:
-   .slide-album
 ========================================================= */
 
 const slidesAlbum =
@@ -662,18 +593,15 @@ const slidesAlbum =
         ".slide-album"
     );
 
-
 const indicadoresAlbum =
     document.querySelectorAll(
         ".indicador"
     );
 
-
 const botaoAnterior =
     document.getElementById(
         "btnAnterior"
     );
-
 
 const botaoProximo =
     document.getElementById(
@@ -688,11 +616,8 @@ const botaoProximo =
 function mostrarSlide(indice) {
 
     if (slidesAlbum.length === 0) {
-
         return;
-
     }
-
 
     slideAtual =
         (
@@ -701,7 +626,6 @@ function mostrarSlide(indice) {
         )
         %
         slidesAlbum.length;
-
 
     slidesAlbum.forEach(
         slide => {
@@ -713,7 +637,6 @@ function mostrarSlide(indice) {
         }
     );
 
-
     indicadoresAlbum.forEach(
         indicador => {
 
@@ -724,13 +647,11 @@ function mostrarSlide(indice) {
         }
     );
 
-
     slidesAlbum[
         slideAtual
     ].classList.add(
         "ativo"
     );
-
 
     if (
         indicadoresAlbum[
@@ -759,7 +680,6 @@ function proximoSlide() {
         slideAtual + 1
     );
 
-
     reiniciarCarrossel();
 
 }
@@ -774,7 +694,6 @@ function slideAnterior() {
     mostrarSlide(
         slideAtual - 1
     );
-
 
     reiniciarCarrossel();
 
@@ -791,13 +710,9 @@ function iniciarCarrossel() {
         intervaloSlides
     );
 
-
     if (slidesAlbum.length <= 1) {
-
         return;
-
     }
-
 
     intervaloSlides =
         setInterval(
@@ -830,12 +745,7 @@ function reiniciarCarrossel() {
 ========================================================= */
 
 if (botaoAnterior) {
-
-    botaoAnterior.addEventListener(
-        "click",
-        slideAnterior
-    );
-
+    adicionarEventoUniversal(botaoAnterior, slideAnterior);
 }
 
 
@@ -844,12 +754,7 @@ if (botaoAnterior) {
 ========================================================= */
 
 if (botaoProximo) {
-
-    botaoProximo.addEventListener(
-        "click",
-        proximoSlide
-    );
-
+    adicionarEventoUniversal(botaoProximo, proximoSlide);
 }
 
 
@@ -859,21 +764,10 @@ if (botaoProximo) {
 
 indicadoresAlbum.forEach(
     (indicador, indice) => {
-
-        indicador.addEventListener(
-            "click",
-            () => {
-
-                mostrarSlide(
-                    indice
-                );
-
-
-                reiniciarCarrossel();
-
-            }
-        );
-
+        adicionarEventoUniversal(indicador, function () {
+            mostrarSlide(indice);
+            reiniciarCarrossel();
+        });
     }
 );
 
@@ -890,18 +784,9 @@ mostrarSlide(0);
 ========================================================= */
 
 if (envelope) {
-
-    envelope.addEventListener(
-        "click",
-        () => {
-
-            envelope.classList.toggle(
-                "aberto"
-            );
-
-        }
-    );
-
+    adicionarEventoUniversal(envelope, function () {
+        envelope.classList.toggle("aberto");
+    });
 }
 
 
@@ -914,54 +799,39 @@ const modalCapsula =
         "modalCapsula"
     );
 
-
 const mensagemCapsula =
     document.getElementById(
         "mensagemCapsula"
     );
-
 
 const fecharModal =
     document.getElementById(
         "fecharModal"
     );
 
-
 const capsulas =
     document.querySelectorAll(
         ".capsula"
     );
 
-
 capsulas.forEach(
     capsula => {
+        adicionarEventoUniversal(capsula, function () {
+            if (
+                mensagemCapsula &&
+                modalCapsula
+            ) {
+                const mensagem =
+                    this.dataset.mensagem;
 
-        capsula.addEventListener(
-            "click",
-            () => {
+                mensagemCapsula.textContent =
+                    mensagem;
 
-                if (
-                    mensagemCapsula &&
-                    modalCapsula
-                ) {
-
-                    const mensagem =
-                        capsula.dataset.mensagem;
-
-
-                    mensagemCapsula.textContent =
-                        mensagem;
-
-
-                    modalCapsula.classList.add(
-                        "aberto"
-                    );
-
-                }
-
+                modalCapsula.classList.add(
+                    "aberto"
+                );
             }
-        );
-
+        });
     }
 );
 
@@ -982,35 +852,16 @@ function fecharCapsula() {
 
 }
 
-
 if (fecharModal) {
-
-    fecharModal.addEventListener(
-        "click",
-        fecharCapsula
-    );
-
+    adicionarEventoUniversal(fecharModal, fecharCapsula);
 }
 
-
 if (modalCapsula) {
-
-    modalCapsula.addEventListener(
-        "click",
-        evento => {
-
-            if (
-                evento.target ===
-                modalCapsula
-            ) {
-
-                fecharCapsula();
-
-            }
-
+    adicionarEventoUniversal(modalCapsula, function (evento) {
+        if (evento.target === modalCapsula) {
+            fecharCapsula();
         }
-    );
-
+    });
 }
 
 
@@ -1023,61 +874,43 @@ const senhaPortal =
         "senhaPortal"
     );
 
-
 const btnPortal =
     document.getElementById(
         "btnPortal"
     );
-
 
 const erroSenha =
     document.getElementById(
         "erroSenha"
     );
 
-
 const portalTelaCheia =
     document.getElementById(
         "portalTelaCheia"
     );
-
 
 const fecharPortal =
     document.getElementById(
         "fecharPortal"
     );
 
-
 if (btnPortal) {
-
-    btnPortal.addEventListener(
-        "click",
-        verificarSenha
-    );
-
+    adicionarEventoUniversal(btnPortal, verificarSenha);
 }
 
-
 if (senhaPortal) {
-
     senhaPortal.addEventListener(
         "keydown",
         evento => {
-
             if (
                 evento.key ===
                 "Enter"
             ) {
-
                 verificarSenha();
-
             }
-
         }
     );
-
 }
-
 
 function verificarSenha() {
 
@@ -1085,10 +918,8 @@ function verificarSenha() {
         return;
     }
 
-
     const senha =
         senhaPortal.value.trim();
-
 
     if (senha === "01/09") {
 
@@ -1100,7 +931,6 @@ function verificarSenha() {
 
         }
 
-
         if (portalTelaCheia) {
 
             portalTelaCheia.classList.add(
@@ -1108,7 +938,6 @@ function verificarSenha() {
             );
 
         }
-
 
         document.body.style.overflow =
             "hidden";
@@ -1123,9 +952,7 @@ function verificarSenha() {
 
         }
 
-
         senhaPortal.focus();
-
 
         if (
             senhaPortal.animate
@@ -1167,26 +994,12 @@ function verificarSenha() {
 ========================================================= */
 
 if (fecharPortal) {
-
-    fecharPortal.addEventListener(
-        "click",
-        () => {
-
-            if (portalTelaCheia) {
-
-                portalTelaCheia.classList.remove(
-                    "aberto"
-                );
-
-            }
-
-
-            document.body.style.overflow =
-                "";
-
+    adicionarEventoUniversal(fecharPortal, function () {
+        if (portalTelaCheia) {
+            portalTelaCheia.classList.remove("aberto");
         }
-    );
-
+        document.body.style.overflow = "";
+    });
 }
 
 
@@ -1195,21 +1008,14 @@ if (fecharPortal) {
 ========================================================= */
 
 if (playerMusica) {
-
-    playerMusica.addEventListener(
-        "click",
-        alternarMusica
-    );
-
+    adicionarEventoUniversal(playerMusica, alternarMusica);
 }
-
 
 function alternarMusica() {
 
     if (!musica) {
         return;
     }
-
 
     if (musica.paused) {
 
@@ -1253,17 +1059,13 @@ function atualizarPlayer() {
         !iconeMusica ||
         !playerMusica
     ) {
-
         return;
-
     }
-
 
     if (musicaTocando) {
 
         iconeMusica.textContent =
             "♫";
-
 
         playerMusica.classList.remove(
             "pausado"
@@ -1273,7 +1075,6 @@ function atualizarPlayer() {
 
         iconeMusica.textContent =
             "▶";
-
 
         playerMusica.classList.add(
             "pausado"
@@ -1295,70 +1096,53 @@ function criarPetala() {
             "petalas"
         );
 
-
     if (!recipiente) {
         return;
     }
-
 
     const petala =
         document.createElement(
             "span"
         );
 
-
     petala.className =
         "petala";
-
 
     petala.textContent = Math.random() > 0.5
         ? "♡"
         : "✦";
 
-
     const tamanho =
         Math.random() * 12 + 8;
-
 
     const esquerda =
         Math.random() * 100;
 
-
     const duracao =
         Math.random() * 8 + 7;
-
 
     const vento =
         Math.random() * 200 - 100;
 
-
     petala.style.left =
         `${esquerda}%`;
-
 
     petala.style.fontSize =
         `${tamanho}px`;
 
-
-    petala.style.animationDuration =
-        `${duracao}s`;
-
+    petala.style.animationDuration = `${duracao}s`;
 
     petala.style.setProperty(
         "--vento",
         `${vento}px`
     );
 
-
     recipiente.appendChild(
         petala
     );
 
-
     setTimeout(() => {
-
         petala.remove();
-
     }, duracao * 1000);
 
 }
@@ -1374,9 +1158,7 @@ function iniciarChuvaPetalas() {
         return;
     }
 
-
     criarPetala();
-
 
     intervaloPetalas =
         setInterval(
@@ -1389,13 +1171,6 @@ function iniciarChuvaPetalas() {
 
 /* =========================================================
    A TUA HISTÓRIA
-=========================================================
-
-   As imagens dos capítulos continuam
-   exclusivamente no HTML.
-
-   O JavaScript apenas alterna
-   os elementos .historia-item.
 ========================================================= */
 
 const historias =
@@ -1403,18 +1178,15 @@ const historias =
         ".historia-item"
     );
 
-
 const pontosHistoria =
     document.querySelectorAll(
         ".historia-ponto"
     );
 
-
 const historiaAnterior =
     document.getElementById(
         "historiaAnterior"
     );
-
 
 const historiaProximo =
     document.getElementById(
@@ -1429,11 +1201,8 @@ const historiaProximo =
 function mostrarHistoria(indice) {
 
     if (historias.length === 0) {
-
         return;
-
     }
-
 
     historiaAtual =
         (
@@ -1443,28 +1212,21 @@ function mostrarHistoria(indice) {
         %
         historias.length;
 
-
     historias.forEach(
         historia => {
-
             historia.classList.remove(
                 "ativo"
             );
-
         }
     );
-
 
     pontosHistoria.forEach(
         ponto => {
-
             ponto.classList.remove(
                 "ativo"
             );
-
         }
     );
-
 
     historias[
         historiaAtual
@@ -1472,19 +1234,16 @@ function mostrarHistoria(indice) {
         "ativo"
     );
 
-
     if (
         pontosHistoria[
         historiaAtual
         ]
     ) {
-
         pontosHistoria[
             historiaAtual
         ].classList.add(
             "ativo"
         );
-
     }
 
 }
@@ -1499,7 +1258,6 @@ function proximaHistoria() {
     mostrarHistoria(
         historiaAtual + 1
     );
-
 
     reiniciarHistoria();
 
@@ -1516,7 +1274,6 @@ function historiaAnteriorFunc() {
         historiaAtual - 1
     );
 
-
     reiniciarHistoria();
 
 }
@@ -1532,22 +1289,16 @@ function iniciarHistoria() {
         intervaloHistoria
     );
 
-
     if (historias.length <= 1) {
-
         return;
-
     }
-
 
     intervaloHistoria =
         setInterval(
             () => {
-
                 mostrarHistoria(
                     historiaAtual + 1
                 );
-
             },
             6000
         );
@@ -1571,12 +1322,7 @@ function reiniciarHistoria() {
 ========================================================= */
 
 if (historiaAnterior) {
-
-    historiaAnterior.addEventListener(
-        "click",
-        historiaAnteriorFunc
-    );
-
+    adicionarEventoUniversal(historiaAnterior, historiaAnteriorFunc);
 }
 
 
@@ -1585,12 +1331,7 @@ if (historiaAnterior) {
 ========================================================= */
 
 if (historiaProximo) {
-
-    historiaProximo.addEventListener(
-        "click",
-        proximaHistoria
-    );
-
+    adicionarEventoUniversal(historiaProximo, proximaHistoria);
 }
 
 
@@ -1600,21 +1341,10 @@ if (historiaProximo) {
 
 pontosHistoria.forEach(
     (ponto, indice) => {
-
-        ponto.addEventListener(
-            "click",
-            () => {
-
-                mostrarHistoria(
-                    indice
-                );
-
-
-                reiniciarHistoria();
-
-            }
-        );
-
+        adicionarEventoUniversal(ponto, function () {
+            mostrarHistoria(indice);
+            reiniciarHistoria();
+        });
     }
 );
 
@@ -1633,284 +1363,41 @@ mostrarHistoria(0);
 document.addEventListener(
     "keydown",
     evento => {
-
-        if (
-            evento.key ===
-            "Escape"
-        ) {
-
+        if (evento.key === "Escape") {
             fecharCapsula();
-
-
             if (portalTelaCheia) {
-
-                portalTelaCheia.classList.remove(
-                    "aberto"
-                );
-
+                portalTelaCheia.classList.remove("aberto");
             }
-
-
-            document.body.style.overflow =
-                "";
-
+            document.body.style.overflow = "";
         }
-
     }
 );
 
+
 /* =========================================================
-   CORREÇÃO MOBILE - TOQUE EM TODOS OS BOTÕES
-   ========================================================= */
+   CORREÇÃO ADICIONAL: GARANTE QUE TODOS OS BOTÕES
+   COM ONCLICK NO HTML TAMBÉM FUNCIONEM
+========================================================= */
 
 document.addEventListener('DOMContentLoaded', function () {
-
-    console.log('🔧 Aplicando correções mobile...');
-
-    // =========================================================
-    // FUNÇÃO QUE ADICIONA SUPORTE A TOQUE
-    // =========================================================
-    function corrigirCliqueMobile(seletor) {
-        const elementos = document.querySelectorAll(seletor);
-        if (elementos.length === 0) return;
-
-        elementos.forEach(function (el) {
-            // Remove listeners antigos para evitar duplicação
-            el.removeEventListener('touchend', el._touchHandler);
-
-            // Cria o handler de toque
-            el._touchHandler = function (e) {
-                e.preventDefault();
-
-                // Dispara um clique simulado
-                const clickEvent = new MouseEvent('click', {
-                    view: window,
-                    bubbles: true,
-                    cancelable: true
-                });
-                this.dispatchEvent(clickEvent);
-            };
-
-            // Adiciona o evento de toque
-            el.addEventListener('touchend', el._touchHandler);
-
-            // Feedback visual ao tocar
-            el.addEventListener('touchstart', function () {
-                this.style.transition = 'transform 0.1s ease';
-                this.style.transform = 'scale(0.95)';
-                this.style.opacity = '0.8';
+    // Para qualquer elemento com onclick no HTML
+    document.querySelectorAll('[onclick]').forEach(function (el) {
+        // Se não tiver a correção ainda, adiciona
+        if (!el._corrigido) {
+            el._corrigido = true;
+            const funcaoOriginal = el.getAttribute('onclick');
+            adicionarEventoUniversal(el, function (e) {
+                if (funcaoOriginal) {
+                    // Tenta executar a função original
+                    try {
+                        new Function('event', funcaoOriginal)(e);
+                    } catch (erro) {
+                        console.log('Erro ao executar onclick:', erro);
+                    }
+                }
             });
-
-            el.addEventListener('touchend', function () {
-                this.style.transform = '';
-                this.style.opacity = '';
-            });
-
-            // Garante que o elemento seja clicável
-            el.style.cursor = 'pointer';
-            el.style.webkitTapHighlightColor = 'transparent';
-            el.style.touchAction = 'manipulation';
-        });
-    }
-
-    // =========================================================
-    // APLICA A TODOS OS ELEMENTOS CLICÁVEIS
-    // =========================================================
-
-    // Botões principais
-    corrigirCliqueMobile('.btn-principal');
-    corrigirCliqueMobile('.btn-entrar');
-    corrigirCliqueMobile('.btn-hero');
-    corrigirCliqueMobile('.btn-pular');
-
-    // Carrossel
-    corrigirCliqueMobile('.seta');
-    corrigirCliqueMobile('.indicador');
-
-    // Cápsulas
-    corrigirCliqueMobile('.capsula');
-    corrigirCliqueMobile('.garrafa');
-
-    // Envelope
-    corrigirCliqueMobile('.envelope');
-
-    // Menu
-    corrigirCliqueMobile('.menu-links a');
-
-    // História
-    corrigirCliqueMobile('.historia-controles button');
-    corrigirCliqueMobile('.historia-ponto');
-
-    // Portal
-    corrigirCliqueMobile('#btnPortal');
-    corrigirCliqueMobile('#fecharPortal');
-    corrigirCliqueMobile('.portal-card button');
-    corrigirCliqueMobile('.senha-area button');
-
-    // Modal
-    corrigirCliqueMobile('#fecharModal');
-    corrigirCliqueMobile('.modal-conteudo button');
-
-    // Player
-    corrigirCliqueMobile('#playerMusica');
-
-    // Qualquer elemento com onclick
-    corrigirCliqueMobile('[onclick]');
-
-    // =========================================================
-    // CORREÇÕES ESPECÍFICAS
-    // =========================================================
-
-    // 1. ENVELOPE - toggle com toque
-    if (envelope) {
-        envelope.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            this.classList.toggle('aberto');
-        });
-    }
-
-    // 2. SETAS do carrossel - garantem que funcionem
-    if (botaoAnterior) {
-        botaoAnterior.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            slideAnterior();
-        });
-    }
-
-    if (botaoProximo) {
-        botaoProximo.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            proximoSlide();
-        });
-    }
-
-    // 3. INDICADORES do carrossel
-    indicadoresAlbum.forEach(function (indicador, indice) {
-        indicador.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            mostrarSlide(indice);
-            reiniciarCarrossel();
-        });
+        }
     });
-
-    // 4. BOTÃO INICIAR (tela inicial)
-    if (btnIniciar) {
-        btnIniciar.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            if (typeof iniciarExperiencia === 'function') {
-                iniciarExperiencia();
-            }
-        });
-    }
-
-    // 5. BOTÃO ENTRAR (relógio da vida)
-    if (btnEntrar) {
-        btnEntrar.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            if (typeof entrarNoSite === 'function') {
-                entrarNoSite();
-            }
-        });
-    }
-
-    // 6. BOTÃO PULAR (galáxia)
-    if (btnPular) {
-        btnPular.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            clearInterval(intervaloGalaxia);
-            if (typeof iniciarRelogioVida === 'function') {
-                iniciarRelogioVida();
-            }
-        });
-    }
-
-    // 7. BOTÃO DO PORTAL
-    if (btnPortal) {
-        btnPortal.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            if (typeof verificarSenha === 'function') {
-                verificarSenha();
-            }
-        });
-    }
-
-    // 8. FECHAR MODAL
-    if (fecharModal) {
-        fecharModal.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            if (typeof fecharCapsula === 'function') {
-                fecharCapsula();
-            }
-        });
-    }
-
-    // 9. FECHAR PORTAL
-    if (fecharPortal) {
-        fecharPortal.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            if (portalTelaCheia) {
-                portalTelaCheia.classList.remove('aberto');
-            }
-            document.body.style.overflow = '';
-        });
-    }
-
-    // 10. PLAYER DE MÚSICA
-    if (playerMusica) {
-        playerMusica.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            if (typeof alternarMusica === 'function') {
-                alternarMusica();
-            }
-        });
-    }
-
-    // 11. HISTÓRIA - botões
-    if (historiaAnterior) {
-        historiaAnterior.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            if (typeof historiaAnteriorFunc === 'function') {
-                historiaAnteriorFunc();
-            }
-        });
-    }
-
-    if (historiaProximo) {
-        historiaProximo.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            if (typeof proximaHistoria === 'function') {
-                proximaHistoria();
-            }
-        });
-    }
-
-    // 12. HISTÓRIA - pontos
-    pontosHistoria.forEach(function (ponto, indice) {
-        ponto.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            mostrarHistoria(indice);
-            reiniciarHistoria();
-        });
-    });
-
-    // 13. CÁPSULAS - toque
-    capsulas.forEach(function (capsula) {
-        capsula.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            // Dispara o clique original
-            const clickEvent = new MouseEvent('click', {
-                view: window,
-                bubbles: true,
-                cancelable: true
-            });
-            this.dispatchEvent(clickEvent);
-        });
-    });
-
-    // 14. PREVENÇÃO DE ZOOM ACIDENTAL
-    document.addEventListener('dblclick', function (e) {
-        e.preventDefault();
-    }, { passive: false });
 
     console.log('✅ Correções mobile aplicadas com sucesso!');
 });
