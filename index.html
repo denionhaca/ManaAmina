@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#d88ca5">
+
+    <title>Feliz Aniversário, Nossa Irmã ❤️</title>
+
+    <link rel="stylesheet" href="Estilo.css/style.css">
+</head>
+
+<body>
+
+    <!-- =========================================================
+         ÁUDIO
+    ========================================================== -->
+
+    <audio id="musica" src="Musicas/Dynamo - BUNITA.mp3.mpeg" loop></audio>
+
+
+    <!-- =========================================================
+         TELA DE BLOQUEIO
+    ========================================================== -->
+
+    <section id="telaInicio" class="tela-inicial">
+
+        <div class="inicio-conteudo">
+
+            <div class="coracao-inicial">♥</div>
+
+            <h1>Uma experiência especial<br>foi preparada para você...</h1>
+
+            <p>
+                Coloque o coração no lugar certo<br>
+                e prepare-se para uma pequena viagem.
+            </p>
+
+            <button id="btnIniciar" class="btn-principal">
+                Iniciar Experiência ❤️
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         CINEMA COUNTDOWN
+    ========================================================== -->
+
+    <section id="cinema" class="tela-cinema">
+
+        <div class="ruido"></div>
+
+        <div class="cinema-conteudo">
+
+            <span class="cinema-legenda">PREPARE-SE</span>
+
+            <div id="numeroCountdown" class="numero-countdown">
+                10
+            </div>
+
+            <span class="cinema-texto">
+                Uma história está prestes a começar...
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         GALÁXIA DE FOTOS
+    ========================================================== -->
+
+    <section id="galaxia" class="tela-galaxia">
+
+        <div class="galaxia-fundo"></div>
+
+        <div class="galaxia-topo">
+            <span>UMA PEQUENA VIAGEM PELAS MEMÓRIAS</span>
+
+            <strong id="tempoGalaxia">10</strong>
+        </div>
+
+        <button id="btnPular" class="btn-pular">
+            Pular Introdução ➔
+        </button>
+
+        <div class="galaxia">
+
+            <div class="orbita">
+
+                <div class="foto-orbita foto-1">
+                    <img src="IMG/Scrianca.jpeg" alt="Recordação 1">
+                </div>
+
+                <div class="foto-orbita foto-2">
+                    <img src="IMG/Madolescente.jpeg" alt="Recordação 2">
+                </div>
+
+                <div class="foto-orbita foto-3">
+                    <img src="IMG/Criancas.jpeg" alt="Recordação 3">
+                </div>
+
+                <div class="foto-orbita foto-4">
+                    <img src="IMG/DeAmarelo.jpeg" alt="Recordação 4">
+                </div>
+
+                <div class="foto-orbita foto-5">
+                    <img src="IMG/YY.jpeg" alt="Recordação 5">
+                </div>
+
+                <div class="centro-galaxia">
+                    <span>♥</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         RELÓGIO DA VIDA
+    ========================================================== -->
+
+    <section id="vida" class="tela-vida">
+
+        <div class="vida-conteudo">
+
+            <span class="pequeno-titulo">
+                DESDE O DIA EM QUE VOCÊ CHEGOU AO MUNDO...
+            </span>
+
+            <h2>
+                Uma vida inteira de histórias
+            </h2>
+
+            <div class="contador-vida">
+
+                <div class="tempo-item">
+                    <strong id="anos">00</strong>
+                    <span>Anos</span>
+                </div>
+
+                <div class="tempo-item">
+                    <strong id="meses">00</strong>
+                    <span>Meses</span>
+                </div>
+
+                <div class="tempo-item">
+                    <strong id="dias">00</strong>
+                    <span>Dias</span>
+                </div>
+
+                <div class="tempo-item">
+                    <strong id="horas">00</strong>
+                    <span>Horas</span>
+                </div>
+
+                <div class="tempo-item">
+                    <strong id="minutos">00</strong>
+                    <span>Minutos</span>
+                </div>
+
+                <div class="tempo-item">
+                    <strong id="segundos">00</strong>
+                    <span>Segundos</span>
+                </div>
+
+            </div>
+
+            <p class="vida-frase">
+                E cada segundo dessa história tornou o mundo um pouco
+                mais bonito por ter você nele.
+            </p>
+
+            <button id="btnEntrar" class="btn-entrar">
+                Entrar no seu Espaço Especial ✨
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         SITE PRINCIPAL
+    ========================================================== -->
+
+    <main id="sitePrincipal" class="site-principal">
+
+
+        <!-- HEADER -->
+
+        <header class="hero" id="inicio">
+
+            <div class="hero-brilho"></div>
+
+            <div class="hero-conteudo">
+
+                <span class="hero-pequeno">
+                    PARA A NOSSA IRMÃ MAIS VELHA
+                </span>
+
+                <h1 id="tituloVisita">
+                    Seja muito bem-vinda à sua surpresa! 🎉
+                </h1>
+
+                <p>
+                    Hoje celebramos não apenas o dia em que você nasceu,
+                    mas também a pessoa maravilhosa que você se tornou.
+                </p>
+
+                <a href="#album" class="btn-hero">
+                    Começar a recordar ↓
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             MENU
+        ====================================================== -->
+
+        <nav class="menu">
+
+            <div class="menu-logo">
+                <span>♥</span>
+                <strong>Para Você</strong>
+            </div>
+
+            <div class="menu-links">
+
+                <a href="#inicio">Início</a>
+
+                <a href="#album">Álbum</a>
+
+                <a href="#carta">Carta Especial</a>
+
+                <a href="#capsulas">Cápsulas de Amor</a>
+
+                <a href="#portal">Portal Secreto</a>
+
+            </div>
+
+        </nav>
+
+
+        <!-- =====================================================
+             DEDICATÓRIA
+        ====================================================== -->
+
+        <section class="secao dedicatória">
+
+            <div class="etiqueta-secao">
+                ✦ UMA DEDICATÓRIA ✦
+            </div>
+
+            <h2>
+                Para a nossa irmã, nosso exemplo e nosso carinho
+            </h2>
+
+            <div class="dedicatoria-card">
+
+                <div class="aspas">“</div>
+
+                <p>
+                    Hoje é um dia muito especial para nós porque celebramos
+                    o aniversário da nossa mais velha.
+                </p>
+
+                <p>
+                    Somos imensamente gratos por te termos como irmã.
+                    Temos acompanhado a tua trajetória, as tuas conquistas,
+                    os momentos difíceis e, acima de tudo, a mulher
+                    encantadora que tens te tornado.
+                </p>
+
+                <p>
+                    Ser a irmã mais velha é carregar uma história que muitas
+                    vezes começa antes de todos nós. É abrir caminhos,
+                    ensinar sem perceber, proteger mesmo quando ninguém
+                    pede e deixar marcas que permanecem para sempre.
+                </p>
+
+                <p>
+                    Queremos que saibas que admiramos a tua força, o teu
+                    coração e a maneira como continuas caminhando mesmo
+                    quando a estrada não é fácil.
+                </p>
+
+                <p>
+                    Que continues sendo essa menina cheia de sonhos e essa
+                    mulher cheia de coragem. Que nunca te faltem motivos
+                    para sorrir, pessoas para amar e sonhos para realizar.
+                </p>
+
+                <p>
+                    Nós te amamos muito e estaremos sempre aqui para
+                    celebrar contigo cada nova página da tua história.
+                </p>
+
+                <div class="assinatura">
+                    Com todo o nosso amor,<br>
+                    <strong>os teus irmãos ❤️</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ÁLBUM
+        ====================================================== -->
+
+        <section id="album" class="secao album-secao">
+
+            <div class="etiqueta-secao">
+                ✦ NOSSAS MEMÓRIAS ✦
+            </div>
+
+            <h2>
+                Alguns momentos que guardamos com carinho
+            </h2>
+
+            <p class="subtitulo">
+                Porque algumas lembranças merecem ficar para sempre.
+            </p>
+
+
+            <div class="carrossel">
+
+                <button id="btnAnterior" class="seta seta-esquerda">
+                    ‹
+                </button>
+
+                <div class="moldura-foto">
+
+                    <div class="foto-carrossel">
+
+                        <img id="imagemCarrossel" src="IMG/Adolescente.jpeg" alt="Memória especial">
+
+                        <div class="foto-legenda" id="fotoLegenda">
+                            Uma memória especial ❤️
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button id="btnProximo" class="seta seta-direita">
+                    ›
+                </button>
+
+            </div>
+
+            <div class="indicadores" id="indicadores">
+
+                <span class="indicador ativo"></span>
+                <span class="indicador"></span>
+                <span class="indicador"></span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CARTA
+        ====================================================== -->
+
+        <section id="carta" class="secao carta-secao">
+
+            <div class="etiqueta-secao">
+                ✦ UMA CARTA PARA VOCÊ ✦
+            </div>
+
+            <h2>
+                Há coisas que queremos dizer...
+            </h2>
+
+            <p class="subtitulo">
+                Clique no envelope.
+            </p>
+
+
+            <div id="envelope" class="envelope">
+
+                <div class="envelope-corpo">
+
+                    <div class="envelope-aba"></div>
+
+                    <div class="carta-papel">
+
+                        <div class="carta-conteudo">
+
+                            <span class="carta-data">
+                                01 de Setembro de 2026
+                            </span>
+
+                            <h3>
+                                Querida irmã,
+                            </h3>
+
+                            <p>
+                                Talvez existam sentimentos que no dia a dia
+                                acabamos não dizendo com a frequência que
+                                deveríamos.
+                            </p>
+
+                            <p>
+                                Por isso, hoje queremos aproveitar este dia
+                                para te lembrar do quanto és importante
+                                para nós.
+                            </p>
+
+                            <p>
+                                Tu ocupas um lugar muito especial nas nossas
+                                vidas. A tua existência faz parte das nossas
+                                melhores memórias e esperamos que também
+                                faça parte de muitos dos nossos próximos
+                                capítulos.
+                            </p>
+
+                            <p>
+                                Quando olhares para trás, queremos que
+                                encontres uma história cheia de amor,
+                                superação, risos e pessoas que realmente
+                                torceram por ti.
+                            </p>
+
+                            <p>
+                                Que o futuro seja gentil contigo.
+                                Que Deus guie cada um dos teus passos,
+                                proteja o teu coração e ilumine os teus
+                                caminhos.
+                            </p>
+
+                            <p>
+                                Feliz aniversário, nossa irmã.
+                                Nunca te esqueças: nós te amamos.
+                            </p>
+
+                            <div class="carta-assinatura">
+                                Para sempre,<br>
+                                <strong>os teus irmãos ❤️</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="selo">
+                        ♥
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CÁPSULAS
+        ====================================================== -->
+
+        <section id="capsulas" class="secao capsulas-secao">
+
+            <div class="etiqueta-secao">
+                ✦ CÁPSULAS DE AMOR ✦
+            </div>
+
+            <h2>
+                Pequenas mensagens para abrir quando precisar
+            </h2>
+
+            <p class="subtitulo">
+                Escolha uma garrafinha.
+            </p>
+
+
+            <div class="capsulas-grid">
+
+
+                <button class="capsula"
+                    data-mensagem="Se bater saudades, lembra que mesmo quando estivermos longe, existe um lugar onde você estará sempre perto: no nosso coração. As distâncias podem separar abraços, mas nunca conseguem separar o amor que sentimos por você. ❤️">
+
+                    <span class="garrafa">🍾</span>
+
+                    <strong>
+                        Quando bater saudades
+                    </strong>
+
+                    <small>
+                        Abrir mensagem
+                    </small>
+
+                </button>
+
+
+                <button class="capsula"
+                    data-mensagem="Se hoje estiver difícil, respira. Você já atravessou dias que pareciam impossíveis e chegou até aqui. Não precisa ser forte o tempo todo. Permita-se descansar, mas nunca desista de você. Nós acreditamos em você. 🌷">
+
+                    <span class="garrafa">🍾</span>
+
+                    <strong>
+                        Se tiver um dia difícil
+                    </strong>
+
+                    <small>
+                        Abrir mensagem
+                    </small>
+
+                </button>
+
+
+                <button class="capsula"
+                    data-mensagem="Agora sorria! Sim, você mesmo. 😄 Lembre-se de que existe uma quantidade enorme de pessoas que ficam felizes simplesmente porque você existe. Que nunca te falte uma razão para sorrir. E se faltar, chama os teus irmãos. ❤️">
+
+                    <span class="garrafa">🍾</span>
+
+                    <strong>
+                        Para sorrir
+                    </strong>
+
+                    <small>
+                        Abrir mensagem
+                    </small>
+
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PORTAL SECRETO
+        ====================================================== -->
+
+        <section id="portal" class="secao portal-secao">
+
+            <div class="portal-card">
+
+                <div class="portal-icone">
+                    ✦
+                </div>
+
+                <div class="etiqueta-secao">
+                    PORTAL SECRETO
+                </div>
+
+                <h2>
+                    Algumas bênçãos estão esperando por você
+                </h2>
+
+                <p>
+                    Existe uma pequena porta escondida nesta página.
+                    Somente a aniversariante pode abri-la.
+                </p>
+
+                <div class="senha-area">
+
+                    <input type="text" id="senhaPortal" maxlength="5" placeholder="DD/MM" autocomplete="off">
+
+                    <button id="btnPortal">
+                        Abrir Portal ✨
+                    </button>
+
+                    <span id="erroSenha" class="erro-senha">
+                        A senha está incorreta. Tente novamente. ❤️
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RODAPÉ
+        ====================================================== -->
+
+        <footer class="rodape">
+
+            Feito com muito amor, 2026. Feliz aniversário!
+            Te amamos muito. ❤️
+
+        </footer>
+
+    </main>
+
+
+    <!-- =========================================================
+         MODAL DAS CÁPSULAS
+    ========================================================== -->
+
+    <div id="modalCapsula" class="modal">
+
+        <div class="modal-conteudo">
+
+            <button id="fecharModal" class="fechar-modal">
+                ×
+            </button>
+
+            <span class="modal-garrafa">
+                🍾
+            </span>
+
+            <div class="etiqueta-secao">
+                UMA MENSAGEM PARA VOCÊ
+            </div>
+
+            <p id="mensagemCapsula"></p>
+
+            <span class="modal-coracao">
+                ♥
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         PORTAL DE BÊNÇÃOS EM TELA CHEIA
+    ========================================================== -->
+
+    <div id="portalTelaCheia" class="portal-tela-cheia">
+
+        <button id="fecharPortal" class="fechar-portal">
+            ✕ Voltar
+        </button>
+
+
+        <div class="portal-estrelas"></div>
+
+
+        <div class="portal-conteudo">
+
+            <div class="portal-titulo">
+
+                <span>
+                    ✦ PORTAL DE BÊNÇÃOS ✦
+                </span>
+
+                <h2>
+                    Que o teu futuro seja ainda mais bonito
+                </h2>
+
+                <p>
+                    Palavras dos teus irmãos para a mulher que você ainda
+                    vai se tornar.
+                </p>
+
+            </div>
+
+
+            <div class="portal-grid">
+
+
+                <!-- LADO VISUAL -->
+
+                <div class="portal-video">
+
+                    <div class="video-placeholder">
+
+                        <div class="video-brilho">
+                            ♥
+                        </div>
+
+                        <span>
+                            A tua história
+                        </span>
+
+                        <small>
+                            Esta área não foi trabalhada.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BÊNÇÃOS -->
+
+                <div class="bencaos">
+
+
+                    <article class="bencao">
+
+                        <span>01</span>
+
+                        <h3>
+                            Para o teu futuro
+                        </h3>
+
+                        <p>
+                            Que nunca te falte coragem para perseguir aquilo
+                            que faz o teu coração vibrar. Que cada porta que
+                            se abrir te aproxime da mulher que sonhas ser.
+                        </p>
+
+                    </article>
+
+
+                    <article class="bencao">
+
+                        <span>02</span>
+
+                        <h3>
+                            Para a tua vida
+                        </h3>
+
+                        <p>
+                            Que a tua caminhada seja preenchida por paz,
+                            amor, sabedoria e pessoas que reconheçam o valor
+                            imenso que existe em ti.
+                        </p>
+
+                    </article>
+
+
+                    <article class="bencao">
+
+                        <span>03</span>
+
+                        <h3>
+                            Para a tua proteção
+                        </h3>
+
+                        <p>
+                            Que Deus caminhe à tua frente, cuide dos teus
+                            passos, proteja o teu coração e te livre de tudo
+                            aquilo que não foi feito para permanecer na tua
+                            vida.
+                        </p>
+
+                    </article>
+
+
+                    <article class="bencao">
+
+                        <span>04</span>
+
+                        <h3>
+                            Para os teus sonhos
+                        </h3>
+
+                        <p>
+                            Que aquilo que hoje parece distante amanhã seja
+                            uma lembrança de que você nunca deixou de
+                            acreditar.
+                        </p>
+
+                    </article>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="portal-final">
+
+                <span>♥</span>
+
+                <p>
+                    E quando chegar o momento de olhar para trás,
+                    esperamos que você perceba o quanto foi amada.
+                </p>
+
+                <strong>
+                    Feliz aniversário, nossa irmã.
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         PLAYER FLUTUANTE
+    ========================================================== -->
+
+    <button id="playerMusica" class="player-musica" title="Pausar ou tocar música">
+        <span id="iconeMusica">♫</span>
+    </button>
+
+
+    <!-- =========================================================
+         CHUVA DE PÉTALAS
+    ========================================================== -->
+
+    <div id="petalas"></div>
+
+
+    <script src="Programacao.js"></script>
+
+</body>
+
+</html>
