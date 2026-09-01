@@ -16,7 +16,7 @@
 const DATA_NASCIMENTO = new Date(
     2002,
     8,
-    6,
+    0,
     0,
     0,
     0
@@ -446,10 +446,7 @@ function verificarVisita() {
 const fotos = [
     "../IMG/YY.jpeg",
     "../IMG/DeRosa.jpeg",
-    "../IMG/Aeroporto.jpeg",
-    "../IMG/Criancas.jpeg",
-    "../IMG/Madolescente.jpeg"
-
+    "../IMG/Aeroporto.jpeg"
 ];
 
 const legendas = [
