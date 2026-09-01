@@ -1658,3 +1658,259 @@ document.addEventListener(
 
     }
 );
+
+/* =========================================================
+   CORREÇÃO MOBILE - TOQUE EM TODOS OS BOTÕES
+   ========================================================= */
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    console.log('🔧 Aplicando correções mobile...');
+
+    // =========================================================
+    // FUNÇÃO QUE ADICIONA SUPORTE A TOQUE
+    // =========================================================
+    function corrigirCliqueMobile(seletor) {
+        const elementos = document.querySelectorAll(seletor);
+        if (elementos.length === 0) return;
+
+        elementos.forEach(function (el) {
+            // Remove listeners antigos para evitar duplicação
+            el.removeEventListener('touchend', el._touchHandler);
+
+            // Cria o handler de toque
+            el._touchHandler = function (e) {
+                e.preventDefault();
+
+                // Dispara um clique simulado
+                const clickEvent = new MouseEvent('click', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true
+                });
+                this.dispatchEvent(clickEvent);
+            };
+
+            // Adiciona o evento de toque
+            el.addEventListener('touchend', el._touchHandler);
+
+            // Feedback visual ao tocar
+            el.addEventListener('touchstart', function () {
+                this.style.transition = 'transform 0.1s ease';
+                this.style.transform = 'scale(0.95)';
+                this.style.opacity = '0.8';
+            });
+
+            el.addEventListener('touchend', function () {
+                this.style.transform = '';
+                this.style.opacity = '';
+            });
+
+            // Garante que o elemento seja clicável
+            el.style.cursor = 'pointer';
+            el.style.webkitTapHighlightColor = 'transparent';
+            el.style.touchAction = 'manipulation';
+        });
+    }
+
+    // =========================================================
+    // APLICA A TODOS OS ELEMENTOS CLICÁVEIS
+    // =========================================================
+
+    // Botões principais
+    corrigirCliqueMobile('.btn-principal');
+    corrigirCliqueMobile('.btn-entrar');
+    corrigirCliqueMobile('.btn-hero');
+    corrigirCliqueMobile('.btn-pular');
+
+    // Carrossel
+    corrigirCliqueMobile('.seta');
+    corrigirCliqueMobile('.indicador');
+
+    // Cápsulas
+    corrigirCliqueMobile('.capsula');
+    corrigirCliqueMobile('.garrafa');
+
+    // Envelope
+    corrigirCliqueMobile('.envelope');
+
+    // Menu
+    corrigirCliqueMobile('.menu-links a');
+
+    // História
+    corrigirCliqueMobile('.historia-controles button');
+    corrigirCliqueMobile('.historia-ponto');
+
+    // Portal
+    corrigirCliqueMobile('#btnPortal');
+    corrigirCliqueMobile('#fecharPortal');
+    corrigirCliqueMobile('.portal-card button');
+    corrigirCliqueMobile('.senha-area button');
+
+    // Modal
+    corrigirCliqueMobile('#fecharModal');
+    corrigirCliqueMobile('.modal-conteudo button');
+
+    // Player
+    corrigirCliqueMobile('#playerMusica');
+
+    // Qualquer elemento com onclick
+    corrigirCliqueMobile('[onclick]');
+
+    // =========================================================
+    // CORREÇÕES ESPECÍFICAS
+    // =========================================================
+
+    // 1. ENVELOPE - toggle com toque
+    if (envelope) {
+        envelope.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            this.classList.toggle('aberto');
+        });
+    }
+
+    // 2. SETAS do carrossel - garantem que funcionem
+    if (botaoAnterior) {
+        botaoAnterior.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            slideAnterior();
+        });
+    }
+
+    if (botaoProximo) {
+        botaoProximo.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            proximoSlide();
+        });
+    }
+
+    // 3. INDICADORES do carrossel
+    indicadoresAlbum.forEach(function (indicador, indice) {
+        indicador.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            mostrarSlide(indice);
+            reiniciarCarrossel();
+        });
+    });
+
+    // 4. BOTÃO INICIAR (tela inicial)
+    if (btnIniciar) {
+        btnIniciar.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            if (typeof iniciarExperiencia === 'function') {
+                iniciarExperiencia();
+            }
+        });
+    }
+
+    // 5. BOTÃO ENTRAR (relógio da vida)
+    if (btnEntrar) {
+        btnEntrar.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            if (typeof entrarNoSite === 'function') {
+                entrarNoSite();
+            }
+        });
+    }
+
+    // 6. BOTÃO PULAR (galáxia)
+    if (btnPular) {
+        btnPular.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            clearInterval(intervaloGalaxia);
+            if (typeof iniciarRelogioVida === 'function') {
+                iniciarRelogioVida();
+            }
+        });
+    }
+
+    // 7. BOTÃO DO PORTAL
+    if (btnPortal) {
+        btnPortal.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            if (typeof verificarSenha === 'function') {
+                verificarSenha();
+            }
+        });
+    }
+
+    // 8. FECHAR MODAL
+    if (fecharModal) {
+        fecharModal.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            if (typeof fecharCapsula === 'function') {
+                fecharCapsula();
+            }
+        });
+    }
+
+    // 9. FECHAR PORTAL
+    if (fecharPortal) {
+        fecharPortal.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            if (portalTelaCheia) {
+                portalTelaCheia.classList.remove('aberto');
+            }
+            document.body.style.overflow = '';
+        });
+    }
+
+    // 10. PLAYER DE MÚSICA
+    if (playerMusica) {
+        playerMusica.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            if (typeof alternarMusica === 'function') {
+                alternarMusica();
+            }
+        });
+    }
+
+    // 11. HISTÓRIA - botões
+    if (historiaAnterior) {
+        historiaAnterior.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            if (typeof historiaAnteriorFunc === 'function') {
+                historiaAnteriorFunc();
+            }
+        });
+    }
+
+    if (historiaProximo) {
+        historiaProximo.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            if (typeof proximaHistoria === 'function') {
+                proximaHistoria();
+            }
+        });
+    }
+
+    // 12. HISTÓRIA - pontos
+    pontosHistoria.forEach(function (ponto, indice) {
+        ponto.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            mostrarHistoria(indice);
+            reiniciarHistoria();
+        });
+    });
+
+    // 13. CÁPSULAS - toque
+    capsulas.forEach(function (capsula) {
+        capsula.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            // Dispara o clique original
+            const clickEvent = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            this.dispatchEvent(clickEvent);
+        });
+    });
+
+    // 14. PREVENÇÃO DE ZOOM ACIDENTAL
+    document.addEventListener('dblclick', function (e) {
+        e.preventDefault();
+    }, { passive: false });
+
+    console.log('✅ Correções mobile aplicadas com sucesso!');
+});
