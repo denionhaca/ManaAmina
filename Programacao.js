@@ -6,7 +6,7 @@
 const DATA_NASCIMENTO = new Date(
     2002,
     8,
-    1,
+    2,
     0,
     0,
     0
@@ -919,7 +919,7 @@ function verificarSenha() {
         senhaPortal.value.trim();
 
 
-    if (senha === "01/09") {
+    if (senha === "02/09") {
 
         if (erroSenha) {
 
