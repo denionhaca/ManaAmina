@@ -1,3 +1,4 @@
+
 /* =========================================================
    CONFIGURAÇÃO PRINCIPAL
 ========================================================= */
@@ -13,95 +14,45 @@ const DATA_NASCIMENTO = new Date(
 
 
 /* =========================================================
-   FUNÇÃO UNIVERSAL PARA CLIQUE/TOQUE (CORREÇÃO MOBILE)
+   ELEMENTOS PRINCIPAIS
 ========================================================= */
 
-function adicionarEventoUniversal(elemento, funcao) {
-    if (!elemento) return;
+const musica = document.getElementById("musica");
+const telaInicio = document.getElementById("telaInicio");
+const cinema = document.getElementById("cinema");
+const galaxia = document.getElementById("galaxia");
+const vida = document.getElementById("vida");
+const sitePrincipal = document.getElementById("sitePrincipal");
 
-    // Remove eventos antigos para evitar duplicação
-    elemento.removeEventListener('click', funcao);
-    elemento.removeEventListener('touchend', funcao);
+const btnIniciar = document.getElementById("btnIniciar");
+const numeroCountdown = document.getElementById("numeroCountdown");
+const tempoGalaxia = document.getElementById("tempoGalaxia");
+const btnPular = document.getElementById("btnPular");
+const btnEntrar = document.getElementById("btnEntrar");
 
-    // Adiciona suporte a clique (desktop)
-    elemento.addEventListener('click', funcao);
+const envelope = document.getElementById("envelope");
 
-    // Adiciona suporte a toque (mobile) com prevenção de duplo clique
-    elemento.addEventListener('touchend', function (e) {
-        e.preventDefault();
-        funcao(e);
-    });
-}
+const playerMusica = document.getElementById("playerMusica");
+const iconeMusica = document.getElementById("iconeMusica");
 
 
 /* =========================================================
-   ELEMENTOS
-========================================================= */
-
-const musica =
-    document.getElementById("musica");
-
-const telaInicio =
-    document.getElementById("telaInicio");
-
-const cinema =
-    document.getElementById("cinema");
-
-const galaxia =
-    document.getElementById("galaxia");
-
-const vida =
-    document.getElementById("vida");
-
-const sitePrincipal =
-    document.getElementById("sitePrincipal");
-
-const btnIniciar =
-    document.getElementById("btnIniciar");
-
-const numeroCountdown =
-    document.getElementById("numeroCountdown");
-
-const tempoGalaxia =
-    document.getElementById("tempoGalaxia");
-
-const btnPular =
-    document.getElementById("btnPular");
-
-const btnEntrar =
-    document.getElementById("btnEntrar");
-
-const envelope =
-    document.getElementById("envelope");
-
-const playerMusica =
-    document.getElementById("playerMusica");
-
-const iconeMusica =
-    document.getElementById("iconeMusica");
-
-
-/* =========================================================
-   ESTADO
+   ESTADOS
 ========================================================= */
 
 let musicaTocando = false;
 
 let intervaloCountdown = null;
-
 let intervaloGalaxia = null;
-
 let intervaloVida = null;
 
-let intervaloSlides = null;
-
-let slideAtual = 0;
+let intervaloMemorias = null;
+let memoriaAtual = 0;
 
 let intervaloHistoria = null;
-
 let historiaAtual = 0;
 
-let intervaloPetalas = null;
+let chuvaPetalasIniciada = false;
 
 
 /* =========================================================
@@ -122,15 +73,27 @@ function esperar(ms) {
 ========================================================= */
 
 if (btnIniciar) {
-    adicionarEventoUniversal(btnIniciar, iniciarExperiencia);
+
+    btnIniciar.addEventListener(
+        "click",
+        iniciarExperiencia
+    );
+
 }
 
 
 async function iniciarExperiencia() {
 
-    if (btnIniciar) {
-        btnIniciar.disabled = true;
+    if (!btnIniciar) {
+        return;
     }
+
+    btnIniciar.disabled = true;
+
+
+    /* ---------------------------------------------------------
+       TENTA INICIAR A MÚSICA
+    --------------------------------------------------------- */
 
     if (musica) {
 
@@ -145,7 +108,7 @@ async function iniciarExperiencia() {
         } catch (erro) {
 
             console.log(
-                "Não foi possível iniciar o áudio:",
+                "O áudio não pôde iniciar automaticamente.",
                 erro
             );
 
@@ -153,19 +116,25 @@ async function iniciarExperiencia() {
 
     }
 
+
+    /* ---------------------------------------------------------
+       ESCONDE A TELA INICIAL
+    --------------------------------------------------------- */
+
     if (telaInicio) {
 
         telaInicio.classList.add("oculta");
 
-    }
-
-    await esperar(1000);
-
-    if (telaInicio) {
+        await esperar(1000);
 
         telaInicio.style.display = "none";
 
     }
+
+
+    /* ---------------------------------------------------------
+       COMEÇA O CINEMA
+    --------------------------------------------------------- */
 
     iniciarCountdown();
 
@@ -173,52 +142,42 @@ async function iniciarExperiencia() {
 
 
 /* =========================================================
-   COUNTDOWN CINEMATOGRÁFICO
+   COUNTDOWN
 ========================================================= */
 
 function iniciarCountdown() {
 
-    if (!cinema) {
+    if (!cinema || !numeroCountdown) {
         return;
     }
+
 
     cinema.classList.add("ativa");
 
     let numero = 10;
 
-    if (numeroCountdown) {
+    numeroCountdown.textContent = numero;
+
+
+    clearInterval(intervaloCountdown);
+
+
+    intervaloCountdown = setInterval(() => {
+
+        numero--;
 
         numeroCountdown.textContent = numero;
 
-    }
 
-    clearInterval(
-        intervaloCountdown
-    );
+        if (numero <= 0) {
 
-    intervaloCountdown =
-        setInterval(() => {
+            clearInterval(intervaloCountdown);
 
-            numero--;
+            iniciarGalaxia();
 
-            if (numeroCountdown) {
+        }
 
-                numeroCountdown.textContent =
-                    numero;
-
-            }
-
-            if (numero <= 0) {
-
-                clearInterval(
-                    intervaloCountdown
-                );
-
-                iniciarGalaxia();
-
-            }
-
-        }, 1000);
+    }, 1000);
 
 }
 
@@ -229,67 +188,70 @@ function iniciarCountdown() {
 
 function iniciarGalaxia() {
 
+    if (!galaxia) {
+        return;
+    }
+
+
     if (cinema) {
-
         cinema.classList.remove("ativa");
-
     }
 
-    if (galaxia) {
 
-        galaxia.classList.add("ativa");
+    galaxia.classList.add("ativa");
 
-    }
 
     let tempo = 18;
 
+
     if (tempoGalaxia) {
-
-        tempoGalaxia.textContent =
-            tempo;
-
+        tempoGalaxia.textContent = tempo;
     }
 
-    clearInterval(
-        intervaloGalaxia
-    );
 
-    intervaloGalaxia =
-        setInterval(() => {
+    clearInterval(intervaloGalaxia);
 
-            tempo--;
 
-            if (tempoGalaxia) {
+    intervaloGalaxia = setInterval(() => {
 
-                tempoGalaxia.textContent =
-                    tempo;
+        tempo--;
 
-            }
 
-            if (tempo <= 0) {
+        if (tempoGalaxia) {
+            tempoGalaxia.textContent = tempo;
+        }
 
-                clearInterval(
-                    intervaloGalaxia
-                );
 
-                iniciarRelogioVida();
+        if (tempo <= 0) {
 
-            }
+            clearInterval(intervaloGalaxia);
 
-        }, 1000);
+            iniciarRelogioVida();
+
+        }
+
+    }, 1000);
 
 }
 
 
 /* =========================================================
-   PULAR INTRODUÇÃO
+   PULAR GALÁXIA
 ========================================================= */
 
 if (btnPular) {
-    adicionarEventoUniversal(btnPular, function () {
-        clearInterval(intervaloGalaxia);
-        iniciarRelogioVida();
-    });
+
+    btnPular.addEventListener(
+        "click",
+        () => {
+
+            clearInterval(intervaloGalaxia);
+
+            iniciarRelogioVida();
+
+        }
+    );
+
 }
 
 
@@ -299,38 +261,35 @@ if (btnPular) {
 
 function iniciarRelogioVida() {
 
+    if (!vida) {
+        return;
+    }
+
+
     if (galaxia) {
-
         galaxia.classList.remove("ativa");
-
     }
 
-    if (vida) {
 
-        vida.classList.add("ativa");
+    vida.classList.add("ativa");
 
-    }
 
     atualizarIdade();
 
-    clearInterval(
-        intervaloVida
+
+    clearInterval(intervaloVida);
+
+
+    intervaloVida = setInterval(
+        atualizarIdade,
+        1000
     );
 
-    intervaloVida =
-        setInterval(
-            atualizarIdade,
-            1000
-        );
 
     setTimeout(() => {
 
         if (btnEntrar) {
-
-            btnEntrar.classList.add(
-                "mostrar"
-            );
-
+            btnEntrar.classList.add("mostrar");
         }
 
     }, 3000);
@@ -346,59 +305,66 @@ function atualizarIdade() {
 
     const agora = new Date();
 
+
     let anos =
         agora.getFullYear()
         -
         DATA_NASCIMENTO.getFullYear();
+
 
     let meses =
         agora.getMonth()
         -
         DATA_NASCIMENTO.getMonth();
 
+
     let dias =
         agora.getDate()
         -
         DATA_NASCIMENTO.getDate();
+
 
     let horas =
         agora.getHours()
         -
         DATA_NASCIMENTO.getHours();
 
+
     let minutos =
         agora.getMinutes()
         -
         DATA_NASCIMENTO.getMinutes();
+
 
     let segundos =
         agora.getSeconds()
         -
         DATA_NASCIMENTO.getSeconds();
 
+
     if (segundos < 0) {
 
         segundos += 60;
-
         minutos--;
 
     }
 
+
     if (minutos < 0) {
 
         minutos += 60;
-
         horas--;
 
     }
 
+
     if (horas < 0) {
 
         horas += 24;
-
         dias--;
 
     }
+
 
     if (dias < 0) {
 
@@ -409,80 +375,69 @@ function atualizarIdade() {
                 0
             ).getDate();
 
-        dias +=
-            ultimoDiaMesAnterior;
+
+        dias += ultimoDiaMesAnterior;
 
         meses--;
 
     }
 
+
     if (meses < 0) {
 
         meses += 12;
-
         anos--;
 
     }
 
-    const elementoAnos =
+
+    const anosElemento =
         document.getElementById("anos");
 
-    const elementoMeses =
+    const mesesElemento =
         document.getElementById("meses");
 
-    const elementoDias =
+    const diasElemento =
         document.getElementById("dias");
 
-    const elementoHoras =
+    const horasElemento =
         document.getElementById("horas");
 
-    const elementoMinutos =
+    const minutosElemento =
         document.getElementById("minutos");
 
-    const elementoSegundos =
+    const segundosElemento =
         document.getElementById("segundos");
 
-    if (elementoAnos) {
 
-        elementoAnos.textContent =
+    if (anosElemento)
+        anosElemento.textContent =
             formatarNumero(anos);
 
-    }
 
-    if (elementoMeses) {
-
-        elementoMeses.textContent =
+    if (mesesElemento)
+        mesesElemento.textContent =
             formatarNumero(meses);
 
-    }
 
-    if (elementoDias) {
-
-        elementoDias.textContent =
+    if (diasElemento)
+        diasElemento.textContent =
             formatarNumero(dias);
 
-    }
 
-    if (elementoHoras) {
-
-        elementoHoras.textContent =
+    if (horasElemento)
+        horasElemento.textContent =
             formatarNumero(horas);
 
-    }
 
-    if (elementoMinutos) {
-
-        elementoMinutos.textContent =
+    if (minutosElemento)
+        minutosElemento.textContent =
             formatarNumero(minutos);
 
-    }
 
-    if (elementoSegundos) {
-
-        elementoSegundos.textContent =
+    if (segundosElemento)
+        segundosElemento.textContent =
             formatarNumero(segundos);
-
-    }
 
 }
 
@@ -493,48 +448,48 @@ function atualizarIdade() {
 
 function formatarNumero(numero) {
 
-    return String(numero)
-        .padStart(2, "0");
+    return String(numero).padStart(2, "0");
 
 }
 
 
 /* =========================================================
-   ENTRAR NO SITE
+   ENTRAR NO SITE PRINCIPAL
 ========================================================= */
 
 if (btnEntrar) {
-    adicionarEventoUniversal(btnEntrar, entrarNoSite);
+
+    btnEntrar.addEventListener(
+        "click",
+        entrarNoSite
+    );
+
 }
 
 
 function entrarNoSite() {
 
-    clearInterval(
-        intervaloVida
-    );
+    clearInterval(intervaloVida);
+
 
     if (vida) {
-
         vida.classList.remove("ativa");
-
     }
+
 
     if (sitePrincipal) {
 
-        sitePrincipal.classList.add(
-            "visivel"
-        );
+        sitePrincipal.classList.add("visivel");
 
     }
+
 
     verificarVisita();
 
     iniciarCarrossel();
 
-    iniciarHistoria();
-
     iniciarChuvaPetalas();
+
 
     window.scrollTo({
         top: 0,
@@ -550,19 +505,34 @@ function entrarNoSite() {
 
 function verificarVisita() {
 
-    const jaVisitou =
-        localStorage.getItem(
-            "aniversario_irma_visita"
-        );
-
     const titulo =
-        document.getElementById(
-            "tituloVisita"
-        );
+        document.getElementById("tituloVisita");
+
 
     if (!titulo) {
         return;
     }
+
+
+    let jaVisitou = false;
+
+
+    try {
+
+        jaVisitou =
+            localStorage.getItem(
+                "aniversario_irma_visita"
+            );
+
+    } catch (erro) {
+
+        console.log(
+            "LocalStorage indisponível.",
+            erro
+        );
+
+    }
+
 
     if (jaVisitou) {
 
@@ -574,10 +544,22 @@ function verificarVisita() {
         titulo.textContent =
             "Seja muito bem-vinda à sua surpresa! 🎉";
 
-        localStorage.setItem(
-            "aniversario_irma_visita",
-            "true"
-        );
+
+        try {
+
+            localStorage.setItem(
+                "aniversario_irma_visita",
+                "true"
+            );
+
+        } catch (erro) {
+
+            console.log(
+                "Não foi possível salvar a visita.",
+                erro
+            );
+
+        }
 
     }
 
@@ -589,81 +571,56 @@ function verificarVisita() {
 ========================================================= */
 
 const slidesAlbum =
-    document.querySelectorAll(
-        ".slide-album"
-    );
+    document.querySelectorAll(".slide-album");
+
 
 const indicadoresAlbum =
-    document.querySelectorAll(
-        ".indicador"
-    );
+    document.querySelectorAll(".indicador");
+
 
 const botaoAnterior =
-    document.getElementById(
-        "btnAnterior"
-    );
+    document.getElementById("btnAnterior");
+
 
 const botaoProximo =
-    document.getElementById(
-        "btnProximo"
-    );
+    document.getElementById("btnProximo");
 
 
-/* =========================================================
-   MOSTRAR SLIDE
-========================================================= */
+function mostrarMemoria(indice) {
 
-function mostrarSlide(indice) {
-
-    if (slidesAlbum.length === 0) {
+    if (!slidesAlbum.length) {
         return;
     }
 
-    slideAtual =
-        (
-            indice +
-            slidesAlbum.length
-        )
+
+    memoriaAtual =
+        (indice + slidesAlbum.length)
         %
         slidesAlbum.length;
 
-    slidesAlbum.forEach(
-        slide => {
 
-            slide.classList.remove(
-                "ativo"
-            );
+    slidesAlbum.forEach(slide => {
 
-        }
-    );
+        slide.classList.remove("ativo");
 
-    indicadoresAlbum.forEach(
-        indicador => {
+    });
 
-            indicador.classList.remove(
-                "ativo"
-            );
 
-        }
-    );
+    indicadoresAlbum.forEach(indicador => {
 
-    slidesAlbum[
-        slideAtual
-    ].classList.add(
-        "ativo"
-    );
+        indicador.classList.remove("ativo");
 
-    if (
-        indicadoresAlbum[
-        slideAtual
-        ]
-    ) {
+    });
 
-        indicadoresAlbum[
-            slideAtual
-        ].classList.add(
-            "ativo"
-        );
+
+    slidesAlbum[memoriaAtual]
+        .classList.add("ativo");
+
+
+    if (indicadoresAlbum[memoriaAtual]) {
+
+        indicadoresAlbum[memoriaAtual]
+            .classList.add("ativo");
 
     }
 
@@ -676,8 +633,8 @@ function mostrarSlide(indice) {
 
 function proximoSlide() {
 
-    mostrarSlide(
-        slideAtual + 1
+    mostrarMemoria(
+        memoriaAtual + 1
     );
 
     reiniciarCarrossel();
@@ -691,8 +648,8 @@ function proximoSlide() {
 
 function slideAnterior() {
 
-    mostrarSlide(
-        slideAtual - 1
+    mostrarMemoria(
+        memoriaAtual - 1
     );
 
     reiniciarCarrossel();
@@ -701,30 +658,27 @@ function slideAnterior() {
 
 
 /* =========================================================
-   CARROSSEL AUTOMÁTICO
+   INICIAR CARROSSEL
 ========================================================= */
 
 function iniciarCarrossel() {
 
-    clearInterval(
-        intervaloSlides
-    );
+    clearInterval(intervaloMemorias);
 
-    if (slidesAlbum.length <= 1) {
+
+    if (!slidesAlbum.length) {
         return;
     }
 
-    intervaloSlides =
-        setInterval(
-            () => {
 
-                mostrarSlide(
-                    slideAtual + 1
-                );
+    intervaloMemorias =
+        setInterval(() => {
 
-            },
-            5000
-        );
+            mostrarMemoria(
+                memoriaAtual + 1
+            );
+
+        }, 5000);
 
 }
 
@@ -741,20 +695,26 @@ function reiniciarCarrossel() {
 
 
 /* =========================================================
-   BOTÃO ANTERIOR
+   BOTÕES DO CARROSSEL
 ========================================================= */
 
 if (botaoAnterior) {
-    adicionarEventoUniversal(botaoAnterior, slideAnterior);
+
+    botaoAnterior.addEventListener(
+        "click",
+        slideAnterior
+    );
+
 }
 
 
-/* =========================================================
-   BOTÃO PRÓXIMO
-========================================================= */
-
 if (botaoProximo) {
-    adicionarEventoUniversal(botaoProximo, proximoSlide);
+
+    botaoProximo.addEventListener(
+        "click",
+        proximoSlide
+    );
+
 }
 
 
@@ -764,10 +724,18 @@ if (botaoProximo) {
 
 indicadoresAlbum.forEach(
     (indicador, indice) => {
-        adicionarEventoUniversal(indicador, function () {
-            mostrarSlide(indice);
-            reiniciarCarrossel();
-        });
+
+        indicador.addEventListener(
+            "click",
+            () => {
+
+                mostrarMemoria(indice);
+
+                reiniciarCarrossel();
+
+            }
+        );
+
     }
 );
 
@@ -776,7 +744,7 @@ indicadoresAlbum.forEach(
    PRIMEIRO SLIDE
 ========================================================= */
 
-mostrarSlide(0);
+mostrarMemoria(0);
 
 
 /* =========================================================
@@ -784,9 +752,18 @@ mostrarSlide(0);
 ========================================================= */
 
 if (envelope) {
-    adicionarEventoUniversal(envelope, function () {
-        envelope.classList.toggle("aberto");
-    });
+
+    envelope.addEventListener(
+        "click",
+        () => {
+
+            envelope.classList.toggle(
+                "aberto"
+            );
+
+        }
+    );
+
 }
 
 
@@ -795,50 +772,45 @@ if (envelope) {
 ========================================================= */
 
 const modalCapsula =
-    document.getElementById(
-        "modalCapsula"
-    );
+    document.getElementById("modalCapsula");
+
 
 const mensagemCapsula =
-    document.getElementById(
-        "mensagemCapsula"
-    );
+    document.getElementById("mensagemCapsula");
+
 
 const fecharModal =
-    document.getElementById(
-        "fecharModal"
-    );
+    document.getElementById("fecharModal");
+
 
 const capsulas =
-    document.querySelectorAll(
-        ".capsula"
+    document.querySelectorAll(".capsula");
+
+
+capsulas.forEach(capsula => {
+
+    capsula.addEventListener(
+        "click",
+        () => {
+
+            if (!modalCapsula || !mensagemCapsula) {
+                return;
+            }
+
+
+            mensagemCapsula.textContent =
+                capsula.dataset.mensagem || "";
+
+
+            modalCapsula.classList.add(
+                "aberto"
+            );
+
+        }
     );
 
-capsulas.forEach(
-    capsula => {
-        adicionarEventoUniversal(capsula, function () {
-            if (
-                mensagemCapsula &&
-                modalCapsula
-            ) {
-                const mensagem =
-                    this.dataset.mensagem;
+});
 
-                mensagemCapsula.textContent =
-                    mensagem;
-
-                modalCapsula.classList.add(
-                    "aberto"
-                );
-            }
-        });
-    }
-);
-
-
-/* =========================================================
-   FECHAR CÁPSULA
-========================================================= */
 
 function fecharCapsula() {
 
@@ -852,16 +824,35 @@ function fecharCapsula() {
 
 }
 
+
 if (fecharModal) {
-    adicionarEventoUniversal(fecharModal, fecharCapsula);
+
+    fecharModal.addEventListener(
+        "click",
+        fecharCapsula
+    );
+
 }
 
+
 if (modalCapsula) {
-    adicionarEventoUniversal(modalCapsula, function (evento) {
-        if (evento.target === modalCapsula) {
-            fecharCapsula();
+
+    modalCapsula.addEventListener(
+        "click",
+        evento => {
+
+            if (
+                evento.target ===
+                modalCapsula
+            ) {
+
+                fecharCapsula();
+
+            }
+
         }
-    });
+    );
+
 }
 
 
@@ -870,47 +861,52 @@ if (modalCapsula) {
 ========================================================= */
 
 const senhaPortal =
-    document.getElementById(
-        "senhaPortal"
-    );
+    document.getElementById("senhaPortal");
+
 
 const btnPortal =
-    document.getElementById(
-        "btnPortal"
-    );
+    document.getElementById("btnPortal");
+
 
 const erroSenha =
-    document.getElementById(
-        "erroSenha"
-    );
+    document.getElementById("erroSenha");
+
 
 const portalTelaCheia =
-    document.getElementById(
-        "portalTelaCheia"
-    );
+    document.getElementById("portalTelaCheia");
+
 
 const fecharPortal =
-    document.getElementById(
-        "fecharPortal"
-    );
+    document.getElementById("fecharPortal");
+
 
 if (btnPortal) {
-    adicionarEventoUniversal(btnPortal, verificarSenha);
+
+    btnPortal.addEventListener(
+        "click",
+        verificarSenha
+    );
+
 }
 
+
 if (senhaPortal) {
+
     senhaPortal.addEventListener(
         "keydown",
         evento => {
-            if (
-                evento.key ===
-                "Enter"
-            ) {
+
+            if (evento.key === "Enter") {
+
                 verificarSenha();
+
             }
+
         }
     );
+
 }
+
 
 function verificarSenha() {
 
@@ -918,8 +914,10 @@ function verificarSenha() {
         return;
     }
 
+
     const senha =
         senhaPortal.value.trim();
+
 
     if (senha === "01/09") {
 
@@ -931,6 +929,7 @@ function verificarSenha() {
 
         }
 
+
         if (portalTelaCheia) {
 
             portalTelaCheia.classList.add(
@@ -939,8 +938,21 @@ function verificarSenha() {
 
         }
 
+
         document.body.style.overflow =
             "hidden";
+
+
+        /*
+            IMPORTANTE:
+
+            A HISTÓRIA SÓ É INICIADA AQUI.
+
+            Ela não é executada quando o site
+            carrega e não interfere na tela inicial.
+        */
+
+        iniciarHistoria();
 
     } else {
 
@@ -952,11 +964,11 @@ function verificarSenha() {
 
         }
 
+
         senhaPortal.focus();
 
-        if (
-            senhaPortal.animate
-        ) {
+
+        if (senhaPortal.animate) {
 
             senhaPortal.animate(
                 [
@@ -994,12 +1006,31 @@ function verificarSenha() {
 ========================================================= */
 
 if (fecharPortal) {
-    adicionarEventoUniversal(fecharPortal, function () {
-        if (portalTelaCheia) {
-            portalTelaCheia.classList.remove("aberto");
-        }
-        document.body.style.overflow = "";
-    });
+
+    fecharPortal.addEventListener(
+        "click",
+        fecharPortalFunc
+    );
+
+}
+
+
+function fecharPortalFunc() {
+
+    if (portalTelaCheia) {
+
+        portalTelaCheia.classList.remove(
+            "aberto"
+        );
+
+    }
+
+
+    clearInterval(intervaloHistoria);
+
+
+    document.body.style.overflow = "";
+
 }
 
 
@@ -1008,14 +1039,21 @@ if (fecharPortal) {
 ========================================================= */
 
 if (playerMusica) {
-    adicionarEventoUniversal(playerMusica, alternarMusica);
+
+    playerMusica.addEventListener(
+        "click",
+        alternarMusica
+    );
+
 }
+
 
 function alternarMusica() {
 
     if (!musica) {
         return;
     }
+
 
     if (musica.paused) {
 
@@ -1030,7 +1068,7 @@ function alternarMusica() {
             .catch(erro => {
 
                 console.log(
-                    "Não foi possível tocar a música:",
+                    "Não foi possível tocar a música.",
                     erro
                 );
 
@@ -1049,23 +1087,16 @@ function alternarMusica() {
 }
 
 
-/* =========================================================
-   ATUALIZAR PLAYER
-========================================================= */
-
 function atualizarPlayer() {
 
-    if (
-        !iconeMusica ||
-        !playerMusica
-    ) {
+    if (!playerMusica || !iconeMusica) {
         return;
     }
 
+
     if (musicaTocando) {
 
-        iconeMusica.textContent =
-            "♫";
+        iconeMusica.textContent = "♫";
 
         playerMusica.classList.remove(
             "pausado"
@@ -1073,8 +1104,7 @@ function atualizarPlayer() {
 
     } else {
 
-        iconeMusica.textContent =
-            "▶";
+        iconeMusica.textContent = "▶";
 
         playerMusica.classList.add(
             "pausado"
@@ -1092,57 +1122,68 @@ function atualizarPlayer() {
 function criarPetala() {
 
     const recipiente =
-        document.getElementById(
-            "petalas"
-        );
+        document.getElementById("petalas");
+
 
     if (!recipiente) {
         return;
     }
 
+
     const petala =
-        document.createElement(
-            "span"
-        );
+        document.createElement("span");
 
-    petala.className =
-        "petala";
 
-    petala.textContent = Math.random() > 0.5
-        ? "♡"
-        : "✦";
+    petala.className = "petala";
+
+
+    petala.textContent =
+        Math.random() > 0.5
+            ? "♡"
+            : "✦";
+
 
     const tamanho =
         Math.random() * 12 + 8;
 
+
     const esquerda =
         Math.random() * 100;
+
 
     const duracao =
         Math.random() * 8 + 7;
 
+
     const vento =
         Math.random() * 200 - 100;
+
 
     petala.style.left =
         `${esquerda}%`;
 
+
     petala.style.fontSize =
         `${tamanho}px`;
 
-    petala.style.animationDuration = `${duracao}s`;
+
+    petala.style.animationDuration =
+        `${duracao}s`;
+
 
     petala.style.setProperty(
         "--vento",
         `${vento}px`
     );
 
-    recipiente.appendChild(
-        petala
-    );
+
+    recipiente.appendChild(petala);
+
 
     setTimeout(() => {
+
         petala.remove();
+
     }, duracao * 1000);
 
 }
@@ -1154,44 +1195,113 @@ function criarPetala() {
 
 function iniciarChuvaPetalas() {
 
-    if (intervaloPetalas) {
+    /*
+        Evita criar vários setInterval
+        se a pessoa entrar novamente.
+    */
+
+    if (chuvaPetalasIniciada) {
         return;
     }
 
-    criarPetala();
 
-    intervaloPetalas =
-        setInterval(
-            criarPetala,
-            650
-        );
+    chuvaPetalasIniciada = true;
+
+
+    setInterval(
+        criarPetala,
+        650
+    );
 
 }
+
+
+/* =========================================================
+   TECLADO
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    evento => {
+
+        if (evento.key === "Escape") {
+
+            fecharCapsula();
+
+
+            if (portalTelaCheia) {
+
+                portalTelaCheia.classList.remove(
+                    "aberto"
+                );
+
+            }
+
+
+            clearInterval(
+                intervaloHistoria
+            );
+
+
+            document.body.style.overflow = "";
+
+        }
+
+    }
+);
 
 
 /* =========================================================
    A TUA HISTÓRIA
 ========================================================= */
 
-const historias =
-    document.querySelectorAll(
-        ".historia-item"
-    );
+/*
+    ATENÇÃO:
 
-const pontosHistoria =
-    document.querySelectorAll(
-        ".historia-ponto"
-    );
+    Estes elementos são procurados normalmente,
+    mas nenhuma função da história é executada
+    automaticamente aqui.
 
-const historiaAnterior =
-    document.getElementById(
-        "historiaAnterior"
-    );
+    Isso é importante para não interferir
+    com a tela inicial no celular.
+*/
 
-const historiaProximo =
-    document.getElementById(
-        "historiaProximo"
-    );
+let historias = [];
+let pontosHistoria = [];
+let botaoHistoriaAnterior = null;
+let botaoHistoriaProximo = null;
+
+
+/* =========================================================
+   PREPARAR A HISTÓRIA
+========================================================= */
+
+function prepararHistoria() {
+
+    historias =
+        document.querySelectorAll(
+            ".historia-item"
+        );
+
+
+    pontosHistoria =
+        document.querySelectorAll(
+            ".historia-ponto"
+        );
+
+
+    botaoHistoriaAnterior =
+        document.getElementById(
+            "historiaAnterior"
+        );
+
+
+    botaoHistoriaProximo =
+        document.getElementById(
+            "historiaProximo"
+        );
+
+}
 
 
 /* =========================================================
@@ -1200,33 +1310,50 @@ const historiaProximo =
 
 function mostrarHistoria(indice) {
 
-    if (historias.length === 0) {
+    /*
+        Se a história ainda não foi preparada,
+        prepara somente agora.
+    */
+
+    if (!historias.length) {
+
+        prepararHistoria();
+
+    }
+
+
+    if (!historias.length) {
         return;
     }
 
+
     historiaAtual =
-        (
-            indice +
-            historias.length
-        )
+        (indice + historias.length)
         %
         historias.length;
 
+
     historias.forEach(
         historia => {
+
             historia.classList.remove(
                 "ativo"
             );
+
         }
     );
 
+
     pontosHistoria.forEach(
         ponto => {
+
             ponto.classList.remove(
                 "ativo"
             );
+
         }
     );
+
 
     historias[
         historiaAtual
@@ -1234,16 +1361,15 @@ function mostrarHistoria(indice) {
         "ativo"
     );
 
-    if (
-        pontosHistoria[
-        historiaAtual
-        ]
-    ) {
+
+    if (pontosHistoria[historiaAtual]) {
+
         pontosHistoria[
             historiaAtual
         ].classList.add(
             "ativo"
         );
+
     }
 
 }
@@ -1258,6 +1384,7 @@ function proximaHistoria() {
     mostrarHistoria(
         historiaAtual + 1
     );
+
 
     reiniciarHistoria();
 
@@ -1274,31 +1401,114 @@ function historiaAnteriorFunc() {
         historiaAtual - 1
     );
 
+
     reiniciarHistoria();
 
 }
 
 
 /* =========================================================
-   CARROSSEL AUTOMÁTICO DA HISTÓRIA
+   INICIAR HISTÓRIA
 ========================================================= */
 
 function iniciarHistoria() {
+
+    /*
+        AQUI está a proteção principal.
+
+        A história só começa depois de a senha
+        correta ser colocada no Portal.
+    */
+
+
+    prepararHistoria();
+
+
+    if (!historias.length) {
+        return;
+    }
+
+
+    historiaAtual = 0;
+
+
+    mostrarHistoria(0);
+
+
+    if (
+        botaoHistoriaAnterior &&
+        !botaoHistoriaAnterior.dataset.ativo
+    ) {
+
+        botaoHistoriaAnterior.addEventListener(
+            "click",
+            historiaAnteriorFunc
+        );
+
+
+        botaoHistoriaAnterior.dataset.ativo =
+            "true";
+
+    }
+
+
+    if (
+        botaoHistoriaProximo &&
+        !botaoHistoriaProximo.dataset.ativo
+    ) {
+
+        botaoHistoriaProximo.addEventListener(
+            "click",
+            proximaHistoria
+        );
+
+
+        botaoHistoriaProximo.dataset.ativo =
+            "true";
+
+    }
+
+
+    pontosHistoria.forEach(
+        (ponto, indice) => {
+
+            if (ponto.dataset.ativo) {
+                return;
+            }
+
+
+            ponto.addEventListener(
+                "click",
+                () => {
+
+                    mostrarHistoria(indice);
+
+                    reiniciarHistoria();
+
+                }
+            );
+
+
+            ponto.dataset.ativo =
+                "true";
+
+        }
+    );
+
 
     clearInterval(
         intervaloHistoria
     );
 
-    if (historias.length <= 1) {
-        return;
-    }
 
     intervaloHistoria =
         setInterval(
             () => {
+
                 mostrarHistoria(
                     historiaAtual + 1
                 );
+
             },
             6000
         );
@@ -1316,88 +1526,3 @@ function reiniciarHistoria() {
 
 }
 
-
-/* =========================================================
-   BOTÃO HISTÓRIA ANTERIOR
-========================================================= */
-
-if (historiaAnterior) {
-    adicionarEventoUniversal(historiaAnterior, historiaAnteriorFunc);
-}
-
-
-/* =========================================================
-   BOTÃO HISTÓRIA PRÓXIMO
-========================================================= */
-
-if (historiaProximo) {
-    adicionarEventoUniversal(historiaProximo, proximaHistoria);
-}
-
-
-/* =========================================================
-   INDICADORES DA HISTÓRIA
-========================================================= */
-
-pontosHistoria.forEach(
-    (ponto, indice) => {
-        adicionarEventoUniversal(ponto, function () {
-            mostrarHistoria(indice);
-            reiniciarHistoria();
-        });
-    }
-);
-
-
-/* =========================================================
-   PRIMEIRO CAPÍTULO
-========================================================= */
-
-mostrarHistoria(0);
-
-
-/* =========================================================
-   TECLADO
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    evento => {
-        if (evento.key === "Escape") {
-            fecharCapsula();
-            if (portalTelaCheia) {
-                portalTelaCheia.classList.remove("aberto");
-            }
-            document.body.style.overflow = "";
-        }
-    }
-);
-
-
-/* =========================================================
-   CORREÇÃO ADICIONAL: GARANTE QUE TODOS OS BOTÕES
-   COM ONCLICK NO HTML TAMBÉM FUNCIONEM
-========================================================= */
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Para qualquer elemento com onclick no HTML
-    document.querySelectorAll('[onclick]').forEach(function (el) {
-        // Se não tiver a correção ainda, adiciona
-        if (!el._corrigido) {
-            el._corrigido = true;
-            const funcaoOriginal = el.getAttribute('onclick');
-            adicionarEventoUniversal(el, function (e) {
-                if (funcaoOriginal) {
-                    // Tenta executar a função original
-                    try {
-                        new Function('event', funcaoOriginal)(e);
-                    } catch (erro) {
-                        console.log('Erro ao executar onclick:', erro);
-                    }
-                }
-            });
-        }
-    });
-
-    console.log('✅ Correções mobile aplicadas com sucesso!');
-});
